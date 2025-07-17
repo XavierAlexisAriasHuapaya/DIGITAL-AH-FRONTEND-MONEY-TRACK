@@ -1,0 +1,42 @@
+.p-inputtext {
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.container label {
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 20px;
+    background-color: white;
+}
+
+.container-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.p-datatable-table-container {
+    margin-top: 2rem;
+}
+
+.cl-outbound {
+    color: red;
+    font-weight: 600;
+}
+
+.cl-inbound {
+    color: blue;
+    font-weight: 600;
+}

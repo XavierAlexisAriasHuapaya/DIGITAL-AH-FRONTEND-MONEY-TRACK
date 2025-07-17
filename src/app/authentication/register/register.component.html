@@ -1,0 +1,27 @@
+<div class="wrapper">
+    <div class="container">
+        <label class="title-sign-up">Sign Up</label>
+        <div class="container-form-sign-up">
+            <p-floatlabel variant="on">
+                <input pInputText id="on_label" autocomplete="off" pSize="small" />
+                <label for="on_label">Username</label>
+            </p-floatlabel>
+            <p-floatlabel variant="on">
+                <input pInputText id="on_label" autocomplete="off" pSize="small" />
+                <label for="on_label">Email</label>
+            </p-floatlabel>
+            <p-floatlabel variant="on">
+                <p-password size="small" [toggleMask]="true" />
+                <label for="on_label">Password</label>
+            </p-floatlabel>
+            <p-select optionLabel="Country" placeholder="Country" size="small" />
+            <p-floatlabel variant="on">
+                <p-inputmask size="small" mask="99-999999999" />
+                <label for="on_label">Phone</label>
+            </p-floatlabel>
+            <div class="btn-sign-up">
+                <p-button styleClass="btn-sign-up" label="Sign Up" (onClick)="signUp()" />
+            </div>
+        </div>
+    </div>
+</div>

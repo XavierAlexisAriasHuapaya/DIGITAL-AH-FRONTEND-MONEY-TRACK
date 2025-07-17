@@ -1,0 +1,17 @@
+<div class="container">
+    <form (submit)="create()" [formGroup]="myForm" autocomplete="false">
+        <div class="body">
+            <p-select optionLabel="Type Movement" [options]="typeMovement" placeholder="Movement" size="small"
+                optionLabel="name" formControlName="type" optionValue="code" />
+            <p-floatlabel variant="on">
+                <input pInputText id="on_description" autocomplete="off" pSize="small" formControlName="description" />
+                <label for="on_description">Description</label>
+            </p-floatlabel>
+        </div>
+    </form>
+    <div class="footer">
+        <p-button [label]="id ? 'Update' : 'Create'" severity="success" icon="pi pi-check"
+            (onClick)="id ? update() : create()" />
+        <p-button label="Close" severity="danger" icon="pi pi-times" (onClick)="close()" />
+    </div>
+</div>

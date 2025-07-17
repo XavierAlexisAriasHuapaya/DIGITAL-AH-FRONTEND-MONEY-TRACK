@@ -1,0 +1,23 @@
+<div class="container">
+    <form (submit)="update()" [formGroup]="myForm" autocomplete="false">
+        <div class="body" #body>
+            <div formGroupName="country">
+                <p-select [options]="countryData" optionLabel="name" [showClear]="true" placeholder="Country"
+                    size="small" formControlName="id" optionValue="id" [appendTo]="'body'" />
+            </div>
+            <p-floatlabel variant="on">
+                <input pInputText id="on_firstName" autocomplete="off" pSize="small" formControlName="firstName" />
+                <label for="on_firstName">First Name</label>
+            </p-floatlabel>
+            <p-floatlabel variant="on">
+                <input pInputText id="on_lastName" autocomplete="off" pSize="small" formControlName="lastName" />
+                <label for="on_lastName">Last Name</label>
+            </p-floatlabel>
+        </div>
+        <div class="footer">
+            <p-button [label]="id ? 'Update' : 'Create'" severity="success" icon="pi pi-check" type="submit" />
+            <p-button label="Close" severity="danger" icon="pi pi-times" (onClick)="close()" />
+        </div>
+    </form>
+
+</div>

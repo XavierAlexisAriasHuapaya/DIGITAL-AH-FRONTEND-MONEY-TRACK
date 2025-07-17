@@ -1,0 +1,167 @@
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    max-width: 50%;
+    background-color: white;
+    margin: 1rem auto;
+    border-radius: 20px;
+}
+
+input {
+    width: 100%;
+}
+
+.p-password {
+    width: 100%;
+}
+
+p-floatlabel {
+    width: 70%;
+}
+
+p-chip {
+    cursor: pointer;
+}
+
+p-chip:hover {
+    background-color: #34d399;
+    color: white;
+}
+
+p-chip:hover .pi {
+    color: white;
+}
+
+.container-sign-in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1rem;
+    flex: 1;
+    min-width: 65%;
+
+    padding: 10rem 1rem;
+
+    .sign-in-other {
+        display: flex;
+        flex-direction: row;
+        column-gap: 0.5rem;
+    }
+
+    .title-sign-in {
+        font-size: 36px;
+        font-weight: 700;
+    }
+
+    .container-form-sign-in {
+        margin-top: 1.5rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 1rem;
+        flex: 1;
+    }
+
+    .forget-pwd {
+        cursor: pointer;
+    }
+
+    .forget-pwd:hover {
+        color: #059669;
+    }
+
+    .btn-sign-in {
+        margin-top: 0.7rem;
+    }
+
+    .btn-sign-in .btn-sign-up {
+        display: none;
+    }
+}
+
+
+.container-sign-up {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 1rem;
+    flex: 1;
+
+    min-width: 45%;
+
+    color: white;
+    padding: 1rem;
+    background-color: #34d399;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+    border-top-left-radius: 90px;
+    border-bottom-left-radius: 90px;
+
+    .title-sign-up {
+        font-size: 36px;
+        font-weight: 700;
+        color: white;
+        text-align: center;
+    }
+
+    .sign-up-description {
+        font-size: 18px;
+        display: flex;
+        text-align: center;
+    }
+
+    .btn-sign-up {
+        border-color: white;
+    }
+}
+
+
+@media screen and (max-width: 1000px) {
+    .container-sign-in {
+        .sign-in-other {
+            display: flex;
+            flex-direction: column;
+            row-gap: 0.5rem;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    .container {
+        min-width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .container-sign-in {
+        padding: 5rem 1rem;
+    }
+
+    .container-sign-up {
+        display: none;
+    }
+
+    .btn-sign-in {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        align-items: center;
+    }
+
+    .btn-sign-in .btn-sign-up {
+        display: block !important;
+    }
+}

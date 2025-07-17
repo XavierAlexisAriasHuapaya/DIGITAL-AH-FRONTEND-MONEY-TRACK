@@ -1,0 +1,86 @@
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MenuItem } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { DynamicDialogModule, DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { Menu } from 'primeng/menu';
+import { PaginatorModule } from 'primeng/paginator';
+import { TableModule } from 'primeng/table';
+import { ToastService } from '../../utils/service/toast.service';
+import { TransactionPagination } from '../interface/transaction-pagination.interface';
+import { TransactionService } from '../service/transaction.service';
+
+@Component({
+  selector: 'app-transaction-list',
+  imports: [TableModule, CommonModule, IconField, InputIcon, InputTextModule, ButtonModule, DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule],
+  templateUrl: './transaction-list.component.html',
+  styleUrl: './transaction-list.component.css',
+  providers: [DialogService, DynamicDialogRef]
+})
+export class TransactionListComponent implements OnInit {
+
+  private readonly _dialogService = inject(DialogService);
+  private _dynamicDialogRef = inject(DynamicDialogRef);
+  private _transactionService = inject(TransactionService);
+  private readonly _toastService = inject(ToastService);
+
+  public transactionData: TransactionPagination[] = [];
+  public items: MenuItem[] = [];
+
+  public page: number = 0;
+  public pageSize: number = 5;
+  public totalElements: number = 0;
+  public searchControl = new FormControl('');
+
+  ngOnInit(): void {
+    this.paginationTransaction();
+  }
+
+
+  openToggle(menu: Menu, event: any, id: number) {
+    this.items = [
+      {
+        label: 'Options',
+        items: [
+          {
+            label: 'Edit',
+            icon: 'pi pi-pen-to-square',
+            command: () => {
+              this.updateTransaction(id);
+            }
+          }
+        ]
+      }
+    ];
+    menu.toggle(event);
+  }
+
+  onPagination(event: any) {
+    this.page = event.page;
+    this.pageSize = event.rows;
+    this.paginationTransaction();
+  }
+
+  paginationTransaction() {
+    this._transactionService.pagination(this.page, this.pageSize, this.searchControl.value ?? '').subscribe({
+      next: (response) => {
+        console.log(response.content);
+        this.transactionData = response.content;
+        this.totalElements = response.totalElements;
+      }
+    })
+  }
+
+  createTransaction() {
+
+  }
+
+  updateTransaction(id: number) {
+
+  }
+
+}

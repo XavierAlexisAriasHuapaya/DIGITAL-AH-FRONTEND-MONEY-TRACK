@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+p-select {
+    width: 100%;
+}
+
+input {
+    width: 100%;
+}
+
+p-floatlabel {
+    width: 100%;
+}
+
+.p-inputtext-sm {
+    width: 100%;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 0.5rem;
+}
