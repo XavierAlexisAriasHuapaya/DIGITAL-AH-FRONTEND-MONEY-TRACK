@@ -1,1 +1,89 @@
-<p>transaction-form works!</p>
+<div class="container">
+    <form (submit)="create()" [formGroup]="myForm" autocomplete="false">
+        <div class="body">
+
+            <div class="group">
+                <p-floatlabel variant="on">
+                    <p-datepicker [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false" [readonlyInput]="true"
+                        formControlName="date" [appendTo]="'body'" size="small" dateFormat="dd/mm/yy"
+                        [style]="{'width': '100%'}" [inputStyle]="{'width':'100%'}" />
+                    <label for="on_date">Date</label>
+                </p-floatlabel>
+                @if ( formUtils.isValidField( myForm, 'date') ) {
+                <span class="form-text-danger">
+                    {{ formUtils.getFieldError(myForm, "date") }}
+                </span>
+                }
+            </div>
+
+            <div class="group">
+                <div formGroupName="category">
+                    <p-select [showClear]="true" [options]="categoriesData" optionLabel="Category"
+                        placeholder="Category" size="small" optionLabel="description" formControlName="id"
+                        optionValue="id" [appendTo]="'body'" />
+                </div>
+                @if ( formUtils.isValidField(getCategoryForm, "id") ) {
+                <span class="form-text-danger">
+                    {{ formUtils.getFieldError(getCategoryForm, "id") }}
+                </span>
+                }
+            </div>
+
+            <div class="group">
+                <div formGroupName="bankAccountOrigin">
+                    <p-select [showClear]="true" [options]="bankAccountOriginData" optionLabel="Origin"
+                        placeholder="Bank Origin" size="small" optionLabel="name" formControlName="id" optionValue="id"
+                        [appendTo]="'body'" />
+                </div>
+                @if ( formUtils.isValidField(getBankAccountOriginForm, 'id') ) {
+                <span class="form-text-danger">
+                    {{ formUtils.getFieldError(getBankAccountOriginForm, "id") }}
+                </span>
+                }
+            </div>
+
+            <div class="group">
+                <div formGroupName="bankAccountDestination">
+                    <p-select [showClear]="true" [options]="bankAccountDestinationData" optionLabel="Destination"
+                        placeholder="Bank Destination" size="small" optionLabel="name" formControlName="id"
+                        optionValue="id" [readonly]="bankAccountDestinationReadonly" [appendTo]="'body'" />
+                </div>
+                @if ( formUtils.isValidField( myForm, 'bankAccountDestination') ) {
+                <span class="form-text-danger">
+                    {{ formUtils.getFieldError(myForm, "bankAccountDestination") }}
+                </span>
+                }
+            </div>
+
+            <div class="group">
+                <p-floatlabel variant="on">
+                    <input pInputText id="on_description" autocomplete="off" pSize="small"
+                        formControlName="description" />
+                    <label for="on_description">Description</label>
+                </p-floatlabel>
+                @if ( formUtils.isValidField( myForm, 'description') ) {
+                <span class="form-text-danger">
+                    {{ formUtils.getFieldError(myForm, "description") }}
+                </span>
+                }
+            </div>
+
+            <div class="group">
+                <p-floatlabel variant="on">
+                    <p-inputnumber inputId="on_amount" autocomplete="off" size="small" formControlName="amount"
+                        mode="currency" currency="PEN" [minFractionDigits]="2" />
+                    <label for="on_amount">Amount</label>
+                </p-floatlabel>
+                @if ( formUtils.isValidField( myForm, 'amount') ) {
+                <span class="form-text-danger">
+                    {{ formUtils.getFieldError(myForm, "amount") }}
+                </span>
+                }
+            </div>
+        </div>
+        <div class="footer">
+            <p-button [label]="id ? 'Update' : 'Create'" severity="success" icon="pi pi-check" type="submit" />
+            <p-button label="Close" severity="danger" icon="pi pi-times" (onClick)="close()" />
+        </div>
+    </form>
+</div>

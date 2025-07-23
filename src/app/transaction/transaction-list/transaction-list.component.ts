@@ -13,6 +13,7 @@ import { TableModule } from 'primeng/table';
 import { ToastService } from '../../utils/service/toast.service';
 import { TransactionPagination } from '../interface/transaction-pagination.interface';
 import { TransactionService } from '../service/transaction.service';
+import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
 
 @Component({
   selector: 'app-transaction-list',
@@ -76,7 +77,27 @@ export class TransactionListComponent implements OnInit {
   }
 
   createTransaction() {
-
+    this._dynamicDialogRef = this._dialogService.open(TransactionFormComponent, {
+      header: 'Create Transaction',
+      dismissableMask: true,
+      width: '25%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      closeOnEscape: true,
+      modal: true,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      }
+    });
+    this._dynamicDialogRef.onClose.subscribe((data) => {
+      if (data) {
+        let message: string = data.message;
+        if (message.includes('Successfully')) {
+          this.paginationTransaction();
+        }
+      }
+    })
   }
 
   updateTransaction(id: number) {

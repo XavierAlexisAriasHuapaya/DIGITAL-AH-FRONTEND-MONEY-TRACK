@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    margin-top: 0.4rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+input,
+p-floatlabel,
+p-select,
+p-inputnumber,
+p-datepicker,
+p-inputgroup {
+    width: 100%;
+}
+
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 0.5rem;
+}
