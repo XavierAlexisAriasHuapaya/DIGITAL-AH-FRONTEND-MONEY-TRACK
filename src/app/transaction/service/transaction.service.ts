@@ -4,6 +4,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, Observable, retry, throwError } from 'rxjs';
 import { PaginationInterface } from '../../utils/interface/pagination.interface';
 import { TransactionPagination } from '../interface/transaction-pagination.interface';
+import { TransactionCreate } from '../interface/transaction-create.interface';
+import { ResponseInterface } from '../../utils/interface/response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +33,16 @@ export class TransactionService {
           return throwError(() => error);
         })
       )
+  }
+
+  createTransaction(transaction: TransactionCreate): Observable<ResponseInterface> {
+    const url = `${this._endPoint}/transaction`;
+    return this._httpClient.post<ResponseInterface>(url, transaction)
+      .pipe(
+        catchError((error) => {
+          return throwError(() => error.error);
+        })
+      );
   }
 
 }
