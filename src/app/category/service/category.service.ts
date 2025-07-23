@@ -8,6 +8,7 @@ import { CategoryCreate } from '../interface/category-create.interface';
 import { ResponseInterface } from '../../utils/interface/response.interface';
 import { CategoryFindOne } from '../interface/category-find-one.interface';
 import { CategoryUpdate } from '../interface/category-update.interface';
+import { CategoryFindAll } from '../interface/category-find-all.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,19 @@ export class CategoryService {
       .append('sort', 'createdAt,desc')
       .append('search', search ?? '');
     return this._httpCliente.get<PaginationInterface<CategoryPagination>>(url, { params }).pipe(
+      retry({
+        count: 3,
+        delay: 1200
+      }),
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    )
+  }
+
+  findAllCategoryByUserId(userId: number): Observable<CategoryFindAll[]> {
+    const url = `${this._endPoint}/category/user/${userId}`
+    return this._httpCliente.get<CategoryFindAll[]>(url).pipe(
       retry({
         count: 3,
         delay: 1200
