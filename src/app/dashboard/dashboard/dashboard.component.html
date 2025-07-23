@@ -1,3 +1,52 @@
-<h1>
-    Dashboard
-</h1>
+<div class="contenedor">
+    <div class="general">
+        <div class="inb-out-balance">
+            <div class="title">
+                Inbound General
+            </div>
+            <p>S/. 1,500.00</p>
+        </div>
+        <div class="inb-out-balance">
+            <div class="title">
+                Outbound General
+            </div>
+            <p>S/. 1,500.00</p>
+        </div>
+        <div class="inb-out-balance">
+            <div class="title">
+                Balance General
+            </div>
+            <p>S/. 0.00</p>
+        </div>
+    </div>
+    <div class="to-moth">
+        <div class="inb-out-balance">
+            <div class="title">
+                Inbound To Month
+            </div>
+            <p>S/. 1,500.00</p>
+        </div>
+        <div class="inb-out-balance">
+            <div class="title">
+                Outbound To Month
+            </div>
+            <p>S/. 1,500.00</p>
+        </div>
+        <div class="inb-out-balance">
+            <div class="title">
+                Balance To Month
+            </div>
+            <p>S/. 0.00</p>
+        </div>
+    </div>
+</div>
+
+<div class="contedor-charts">
+    <div class="chart-one">
+        <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+    </div>
+    <div class="chart-two">
+        <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+        <p-chart type="bar" [data]="basicData2" [options]="basicOptions2"></p-chart>
+    </div>
+</div>

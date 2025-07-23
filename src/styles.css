@@ -16,3 +16,15 @@ body {
     font-size: 12px;
     color: red;
 }
+
+.text-red {
+    color: red;
+}
+
+.text-blue {
+    color: blue;
+}
+
+.text-green{
+    color: green;
+}
