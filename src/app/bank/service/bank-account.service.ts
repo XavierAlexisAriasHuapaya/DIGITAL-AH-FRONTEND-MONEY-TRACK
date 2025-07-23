@@ -7,6 +7,7 @@ import { BankAccountPagination } from '../interface/bank-account-pagination.inte
 import { ResponseInterface } from '../../utils/interface/response.interface';
 import { BankAccountCreate } from '../interface/bank-account-create.interface';
 import { BankAccountUpdate } from '../interface/bank-account-update.interface';
+import { BankAccountFindAll } from '../interface/bank-account-find-all.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,21 @@ export class BankAccountService {
         return throwError(() => error);
       })
     );
+  }
+
+  getAllBankAccountsByUserId(userId: number): Observable<BankAccountFindAll[]> {
+    const url = `${this._endPoint}/bank-account/user/${userId}`
+    return this._httpClient.get<BankAccountFindAll[]>(url).pipe(
+      retry(
+        {
+          count: 3,
+          delay: 1200
+        }
+      ),
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    )
   }
 
   pagination(page: number, size: number, userId: number, search: string): Observable<PaginationInterface<BankAccountPagination>> {
