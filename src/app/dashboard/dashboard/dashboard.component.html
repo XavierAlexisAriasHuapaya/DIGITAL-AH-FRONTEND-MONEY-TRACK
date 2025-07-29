@@ -4,19 +4,19 @@
             <div class="title">
                 Total Income
             </div>
-            <p>S/. 1,500.00</p>
+            <p>{{ totalIncome | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
         <div class="inb-out-balance">
             <div class="title">
                 Total Expenses
             </div>
-            <p>S/. 1,500.00</p>
+            <p>{{ totalExpense | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
         <div class="inb-out-balance">
             <div class="title">
                 General Balance
             </div>
-            <p>S/. 0.00</p>
+            <p>{{ generalBalance | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
     </div>
     <div class="to-moth">
@@ -24,29 +24,29 @@
             <div class="title">
                 Monthly Income
             </div>
-            <p>S/. 1,500.00</p>
+            <p>{{ monthlyIncome | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
         <div class="inb-out-balance">
             <div class="title">
                 Monthly Expenses
             </div>
-            <p>S/. 1,500.00</p>
+            <p>{{ monthlyExpense | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
         <div class="inb-out-balance">
             <div class="title">
                 Monthly Balance
             </div>
-            <p>S/. 0.00</p>
+            <p>{{ monthlyBalance | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
     </div>
 </div>
 
 <div class="contedor-charts">
     <div class="chart-one">
-        <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+        <p-chart type="bar" [data]="dataMonth" [options]="optionsMonth"></p-chart>
     </div>
     <div class="chart-two">
-        <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
-        <p-chart type="bar" [data]="basicData2" [options]="basicOptions2"></p-chart>
+        <p-chart type="bar" [data]="dataIncome" [options]="optionsIncome"></p-chart>
+        <p-chart type="bar" [data]="dataExpense" [options]="optionsExpense"></p-chart>
     </div>
 </div>

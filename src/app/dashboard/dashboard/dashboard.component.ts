@@ -1,231 +1,100 @@
-import { isPlatformBrowser } from '@angular/common';
+import { CurrencyPipe, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectorRef, Component, effect, inject, OnInit, PLATFORM_ID } from '@angular/core'; 1
 import { ChartModule } from 'primeng/chart';
+import { TransactionService } from '../../transaction/service/transaction.service';
+import { DashboardService } from '../service/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ChartModule],
+  imports: [ChartModule, CurrencyPipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
 
-  data: any;
+  private readonly _dashboardService = inject(DashboardService);
+
+  public totalIncome: number = 0;
+  public totalExpense: number = 0
+  public generalBalance: number = 0;
+  public monthlyIncome: number = 0;
+  public monthlyExpense: number = 0;
+  public monthlyBalance: number = 0;
+
+  dataMonth: any;
+  dataIncome: any;
+  dataExpense: any;
+
   basicData: any;
   basicData2: any;
 
-  options: any;
+  optionsMonth: any;
+  optionsIncome: any;
+  optionsExpense: any;
+
   basicOptions: any;
   basicOptions2: any;
 
   platformId = inject(PLATFORM_ID);
 
-  // configService = inject(AppConfigService);
-
-  // designerService = inject(DesignerService);
 
   constructor(private cd: ChangeDetectorRef) { }
 
-  // themeEffect = effect(() => {
-  //   if (this.configService.transitionComplete()) {
-  //     if (this.designerService.preset()) {
-  //       this.initChart();
-  //     }
-  //   }
-  // });
 
   ngOnInit() {
-    this.initChart();
-    this.initChart2();
-    this.initChart3();
+    // this.initChart2();
+    // this.initChart3();
+    this.getBalanceByUserId();
+    this.getTransactionBarByUserId();
+    this.getTransactionBarIncomeExpenseByUserIdAndType('INBOUND');
+    this.getTransactionBarIncomeExpenseByUserIdAndType('OUTBOUND');
   }
 
-  initChart3() {
-    if (isPlatformBrowser(this.platformId)) {
-      const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--p-text-color');
-      const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
-      const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
-
-      this.basicData2 = {
-        labels: ['UTP Mensualidad', 'Contabo', 'Spotify', 'Casa'],
-        datasets: [
-          {
-            label: 'Outbound',
-            data: [540, 325, 702, 620],
-            backgroundColor: [
-              'rgba(34, 197, 94, 0.70)',
-              'rgba(34, 197, 94, 0.70)',
-              'rgba(34, 197, 94, 0.70)',
-              'rgba(34, 197, 94, 0.70)',
-            ],
-            borderColor: ['rgba(43, 255, 0, 0.2)', 'rgba(43, 255, 0, 0.2)', 'rgba(43, 255, 0, 0.2)', 'rgba(43, 255, 0, 0.2)'],
-            borderWidth: 1,
-          },
-        ],
-      };
-
-      this.basicOptions2 = {
-        plugins: {
-          legend: {
-            labels: {
-              color: textColor,
-            },
-          },
-        },
-        scales: {
-          x: {
-            ticks: {
-              color: textColorSecondary,
-            },
-            grid: {
-              color: surfaceBorder,
-            },
-          },
-          y: {
-            beginAtZero: true,
-            ticks: {
-              color: textColorSecondary,
-            },
-            grid: {
-              color: surfaceBorder,
-            },
-          },
-        },
-      };
-      this.cd.markForCheck()
-    }
+  private getBalanceByUserId() {
+    this._dashboardService.getBalanceByUserId(1).subscribe({
+      next: (response) => {
+        this.totalIncome = response.amount_inbound;
+        this.totalExpense = response.amount_outbound;
+        this.generalBalance = response.balance;
+        this.monthlyIncome = response.inbound_to_month;
+        this.monthlyExpense = response.outbound_to_month;
+        this.monthlyBalance = response.balance_to_month;
+      }
+    })
   }
 
-  initChart2() {
-    if (isPlatformBrowser(this.platformId)) {
-      const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--p-text-color');
-      const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
-      const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
-
-      this.basicData = {
-        labels: ['UTP Mensualidad', 'Contabo', 'Spotify', 'Casa'],
-        datasets: [
-          {
-            label: 'Outbound',
-            data: [540, 325, 702, 620],
-            backgroundColor: [
-              'rgba(255, 0, 0, 0.70)',
-              'rgba(255, 0, 0, 0.70)',
-              'rgba(255, 0, 0, 0.70)',
-              'rgba(255, 0, 0, 0.70)',
-            ],
-            borderColor: ['rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)'],
-            borderWidth: 1,
-          },
-        ],
-      };
-
-      this.basicOptions = {
-        plugins: {
-          legend: {
-            labels: {
-              color: textColor,
-            },
-          },
-        },
-        scales: {
-          x: {
-            ticks: {
-              color: textColorSecondary,
-            },
-            grid: {
-              color: surfaceBorder,
-            },
-          },
-          y: {
-            beginAtZero: true,
-            ticks: {
-              color: textColorSecondary,
-            },
-            grid: {
-              color: surfaceBorder,
-            },
-          },
-        },
-      };
-      this.cd.markForCheck()
-    }
+  private getTransactionBarByUserId() {
+    this._dashboardService.getTransactionBarByUserId(1).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.dataMonth = response;
+        this.optionsMonth = {
+          indexAxis: 'y',
+          maintainAspectRatio: false,
+          aspectRatio: 0.8,
+        };
+      }
+    });
   }
 
-
-  initChart() {
-    if (isPlatformBrowser(this.platformId)) {
-      const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--p-text-color');
-      const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
-      const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
-
-      this.data = {
-        labels: ['Junio', 'Julio'],
-        // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-          {
-            label: 'Outbound',
-            backgroundColor: [
-              'rgba(255, 0, 0, 0.70)',
-              'rgba(255, 0, 0, 0.70)',
-            ],
-            borderColor: ['rgba(255, 0, 0, 0.2)', 'rgb(6, 182, 212)'],
-            data: [700, 100]
-            // data: [65, 59, 80, 81, 56, 55, 40]
-          },
-          {
-            label: 'Inbound',
-            backgroundColor: [
-              'rgba(34, 197, 94, 0.70)',
-              'rgba(34, 197, 94, 0.70)',
-            ],
-            borderColor: ['rgb(43, 255, 0, 0.2)', 'rg(43, 255, 0, 0.2)'],
-            data: [2000, 2000]
-            // data: [28, 48, 40, 19, 86, 27, 90]
-          }
-        ]
-      };
-
-      this.options = {
-        indexAxis: 'y',
-        maintainAspectRatio: false,
-        aspectRatio: 0.8,
-        plugins: {
-          legend: {
-            labels: {
-              color: textColor
-            }
-          }
-        },
-        scales: {
-          x: {
-            ticks: {
-              color: textColorSecondary,
-              font: {
-                weight: 500
-              }
-            },
-            grid: {
-              color: surfaceBorder,
-              drawBorder: false
-            }
-          },
-          y: {
-            ticks: {
-              color: textColorSecondary
-            },
-            grid: {
-              color: surfaceBorder,
-              drawBorder: false
-            }
-          }
+  private getTransactionBarIncomeExpenseByUserIdAndType(type: string) {
+    this._dashboardService.getTransactionBarIncomeExpenseByUserIdAndType(1, type).subscribe({
+      next: (response) => {
+        if (type.includes('INBOUND')) {
+          this.dataIncome = response;
+          this.optionsIncome = {
+            maintainAspectRatio: false,
+            aspectRatio: 0.8,
+          };
+        } else {
+          this.dataExpense = response;
+          this.optionsExpense = {
+            maintainAspectRatio: false,
+            aspectRatio: 0.8,
+          };
         }
-      };
-      this.cd.markForCheck()
-    }
+      }
+    });
   }
 
 }

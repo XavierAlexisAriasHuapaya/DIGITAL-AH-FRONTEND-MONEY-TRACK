@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -8,9 +8,16 @@ import { ThemePrimary } from './theme-primary';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
+import localeEsPE from '@angular/common/locales/es-PE';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeEsPE, 'es-PE');
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    {
+      provide: LOCALE_ID, useValue: 'es-PE'
+    },
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
