@@ -132,11 +132,17 @@ export class TransactionFormComponent implements OnInit {
     }
     this._transactionService.createTransaction(transactionCreate).subscribe({
       next: (response) => {
-        this._toastService.showToast('success', response.response, 'bottom-center');
-        this.close();
+        if (response.response.includes('Successfully')) {
+          this._dynamicDialogRef.close({
+            message: response.response,
+          });
+          this._toastService.showToast('success', response.response, 'bottom-center');
+        } else {
+          this._toastService.showToast('warn', response.response, 'bottom-center');
+        }
       },
       error: (error) => {
-        this._toastService.showToast('error', error, 'bottom-center');
+        this._toastService.showToast('error', error.message, 'bottom-center');
       }
     })
   }
