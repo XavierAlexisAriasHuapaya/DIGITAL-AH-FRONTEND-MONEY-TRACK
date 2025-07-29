@@ -21,7 +21,7 @@ export class TransactionService {
     const params = new HttpParams()
       .append('page', page)
       .append('size', size)
-      .append('sort', 'createdAt,desc')
+      .append('sort', 'date,desc')
       .append('search', search);
     return this._httpClient.get<PaginationInterface<TransactionPagination>>(url, { params })
       .pipe(
