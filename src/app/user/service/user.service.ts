@@ -6,6 +6,7 @@ import { catchError, Observable, retry, throwError } from 'rxjs';
 import { ResponseInterface } from '../../utils/interface/response.interface';
 import { UserUpdatePassword } from '../interface/user-update-password.interface';
 import { UserFindOne } from '../interface/user-find-one.interface';
+import { AuthService } from '../../authentication/service/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,12 @@ export class UserService {
 
   private readonly _endPoint = environments.endPoint;
   private _httpClient = inject(HttpClient);
+  private _authService = inject(AuthService);
 
   update(user: UserUpdate): Observable<ResponseInterface> {
+    const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/user`;
-    return this._httpClient.patch<ResponseInterface>(url, user)
+    return this._httpClient.patch<ResponseInterface>(url, user, { headers })
       .pipe(
         catchError((error) => {
           return throwError(() => error.error.message);
@@ -26,8 +29,9 @@ export class UserService {
   }
 
   findById(id: number): Observable<UserFindOne> {
+    const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/user/${id}`;
-    return this._httpClient.get<UserFindOne>(url).pipe(
+    return this._httpClient.get<UserFindOne>(url, { headers }).pipe(
       retry({
         count: 3,
         delay: 1200
@@ -39,8 +43,9 @@ export class UserService {
   }
 
   updatePassword(user: UserUpdatePassword): Observable<ResponseInterface> {
+    const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/user/password`;
-    return this._httpClient.patch<ResponseInterface>(url, user)
+    return this._httpClient.patch<ResponseInterface>(url, user, { headers })
       .pipe(
         catchError((error) => {
           return throwError(() => error);

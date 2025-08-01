@@ -8,6 +8,7 @@ import { ResponseInterface } from '../../utils/interface/response.interface';
 import { BankAccountCreate } from '../interface/bank-account-create.interface';
 import { BankAccountUpdate } from '../interface/bank-account-update.interface';
 import { BankAccountFindAll } from '../interface/bank-account-find-all.interface';
+import { AuthService } from '../../authentication/service/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,12 @@ export class BankAccountService {
 
   private readonly _endPoint = environments.endPoint;
   private _httpClient = inject(HttpClient);
+  private _authService = inject(AuthService);
 
   createBankAccount(bankAccount: BankAccountCreate): Observable<ResponseInterface> {
+    const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/bank-account`
-    return this._httpClient.post<ResponseInterface>(url, bankAccount)
+    return this._httpClient.post<ResponseInterface>(url, bankAccount, { headers })
       .pipe(
         catchError((error) => {
           return throwError(() => error.error)
@@ -28,8 +31,9 @@ export class BankAccountService {
   }
 
   updateBankAccount(bankAccount: BankAccountUpdate): Observable<ResponseInterface> {
+    const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/bank-account`
-    return this._httpClient.patch<ResponseInterface>(url, bankAccount)
+    return this._httpClient.patch<ResponseInterface>(url, bankAccount, { headers })
       .pipe(
         catchError((error) => {
           return throwError(() => error.error)
@@ -38,8 +42,9 @@ export class BankAccountService {
   }
 
   findOne(id: number): Observable<any> {
+    const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/bank-account/${id}`
-    return this._httpClient.get<any>(url).pipe(
+    return this._httpClient.get<any>(url, { headers }).pipe(
       retry({
         count: 3,
         delay: 1200
@@ -51,8 +56,9 @@ export class BankAccountService {
   }
 
   getAllBankAccountsByUserId(userId: number): Observable<BankAccountFindAll[]> {
+    const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/bank-account/user/${userId}`
-    return this._httpClient.get<BankAccountFindAll[]>(url).pipe(
+    return this._httpClient.get<BankAccountFindAll[]>(url, { headers }).pipe(
       retry(
         {
           count: 3,
@@ -66,6 +72,7 @@ export class BankAccountService {
   }
 
   pagination(page: number, size: number, userId: number, search: string): Observable<PaginationInterface<BankAccountPagination>> {
+    const headers = this._authService.getHeaderToken();
     const params = new HttpParams()
       .append('page', page)
       .append('size', size)
@@ -73,7 +80,7 @@ export class BankAccountService {
       .append('search', search);
     const url = `${this._endPoint}/bank-account/pagination/${userId}`
     return this._httpClient.get<PaginationInterface<BankAccountPagination>>(url, {
-      params
+      params, headers
     }).pipe(
       retry(
         {

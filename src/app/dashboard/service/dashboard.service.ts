@@ -6,6 +6,7 @@ import { TransactionBalanceInterface } from '../../transaction/interface/transac
 import { TransactionBar } from '../../transaction/interface/transaction-bar.interface';
 import { ChartBarData } from '../interface/chart-bar.interface';
 import { TransactionIncomeExpense } from '../../transaction/interface/transaction-income-expense.interface';
+import { AuthService } from '../../authentication/service/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,12 @@ export class DashboardService {
 
   private readonly _endPoint = environments.endPoint;
   private _httpClient = inject(HttpClient);
+  private _authService = inject(AuthService);
 
   getBalanceByUserId(userId: number): Observable<TransactionBalanceInterface> {
+    const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/transaction/balance/${userId}`;
-    return this._httpClient.get<TransactionBalanceInterface>(url).pipe(
+    return this._httpClient.get<TransactionBalanceInterface>(url, { headers }).pipe(
       retry({
         count: 3,
         delay: 1200
@@ -29,8 +32,9 @@ export class DashboardService {
   }
 
   getTransactionBarByUserId(userId: number): Observable<ChartBarData> {
+    const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/transaction/dashboard/bar/${userId}`;
-    return this._httpClient.get<TransactionBar[]>(url).pipe(
+    return this._httpClient.get<TransactionBar[]>(url, { headers }).pipe(
       retry({
         count: 3,
         delay: 1200
@@ -82,8 +86,9 @@ export class DashboardService {
   }
 
   getTransactionBarIncomeExpenseByUserIdAndType(userId: number, type: string): Observable<ChartBarData> {
+    const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/transaction/dashboard/bar/${userId}/type/${type}`;
-    return this._httpClient.get<TransactionIncomeExpense[]>(url).pipe(
+    return this._httpClient.get<TransactionIncomeExpense[]>(url, { headers }).pipe(
       retry({
         count: 3,
         delay: 1200

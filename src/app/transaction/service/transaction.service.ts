@@ -6,6 +6,7 @@ import { PaginationInterface } from '../../utils/interface/pagination.interface'
 import { TransactionPagination } from '../interface/transaction-pagination.interface';
 import { TransactionCreate } from '../interface/transaction-create.interface';
 import { ResponseInterface } from '../../utils/interface/response.interface';
+import { AuthService } from '../../authentication/service/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,10 @@ export class TransactionService {
 
   private readonly _endPoint = environments.endPoint;
   private _httpClient = inject(HttpClient);
+  private _authService = inject(AuthService);
 
   pagination(page: number, size: number, search: string): Observable<PaginationInterface<TransactionPagination>> {
+    const headers = this._authService.getHeaderToken();
     const userId = 1;
     const url = `${this._endPoint}/transaction/pagination/${userId}`;
     const params = new HttpParams()
@@ -23,7 +26,7 @@ export class TransactionService {
       .append('size', size)
       .append('sort', 'createdAt,desc')
       .append('search', search);
-    return this._httpClient.get<PaginationInterface<TransactionPagination>>(url, { params })
+    return this._httpClient.get<PaginationInterface<TransactionPagination>>(url, { params, headers })
       .pipe(
         retry({
           count: 3,
@@ -36,8 +39,9 @@ export class TransactionService {
   }
 
   createTransaction(transaction: TransactionCreate): Observable<ResponseInterface> {
+    const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/transaction`;
-    return this._httpClient.post<ResponseInterface>(url, transaction)
+    return this._httpClient.post<ResponseInterface>(url, transaction, { headers })
       .pipe(
         catchError((error) => {
           return throwError(() => error.error);
