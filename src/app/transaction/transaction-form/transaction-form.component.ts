@@ -108,7 +108,6 @@ export class TransactionFormComponent implements OnInit {
   }
 
   create() {
-    console.log(this.myForm.get('category')?.get('id')?.value);
     if (!this.myForm.valid) {
       this.myForm.markAllAsTouched();
       return;

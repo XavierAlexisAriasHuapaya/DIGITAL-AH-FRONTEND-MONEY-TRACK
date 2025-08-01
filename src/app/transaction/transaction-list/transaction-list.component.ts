@@ -69,7 +69,6 @@ export class TransactionListComponent implements OnInit {
   paginationTransaction() {
     this._transactionService.pagination(this.page, this.pageSize, this.searchControl.value ?? '').subscribe({
       next: (response) => {
-        console.log(response.content);
         this.transactionData = response.content;
         this.totalElements = response.totalElements;
       }

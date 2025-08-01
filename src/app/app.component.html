@@ -1,2 +1,10 @@
+@if (!finishedAuthCheck()) {
+<h1>
+    <p> Loading... </p>
+</h1>
+}
+
+@if (finishedAuthCheck()) {
 <p-toast [position]="toastPosition" />
 <router-outlet />
+}

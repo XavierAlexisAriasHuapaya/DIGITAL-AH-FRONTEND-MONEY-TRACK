@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, computed, effect, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { ToastService } from './utils/service/toast.service';
 import { ToastModule, ToastPositionType } from 'primeng/toast';
+import { AuthService } from './authentication/service/auth.service';
+import { AuthenticationStatus } from './authentication/enum/authentication-status.enum';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +13,8 @@ import { ToastModule, ToastPositionType } from 'primeng/toast';
 })
 export class AppComponent {
 
+  private _router = inject(Router);
+  private _authService = inject(AuthService);
   private _toastService = inject(ToastService);
   public toastPosition: ToastPositionType = 'center';
 
@@ -19,5 +23,21 @@ export class AppComponent {
       this.toastPosition = position;
     })
   }
+
+  public finishedAuthCheck = computed(() => {
+    return this._authService.currentAuthStatus() == AuthenticationStatus.checking ? false : true;
+  })
+
+  public authStatusChangedEffect = effect(() => {
+    switch (this._authService.currentAuthStatus()) {
+      case AuthenticationStatus.checking:
+        return;
+      case AuthenticationStatus.notAuthenticated:
+        this._router.navigateByUrl("/auth/login");
+        return;
+      case AuthenticationStatus.authenticated:
+        this._router.navigateByUrl("/main")
+    }
+  })
 
 }

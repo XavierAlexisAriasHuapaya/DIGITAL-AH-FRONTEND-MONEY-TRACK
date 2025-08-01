@@ -5,6 +5,8 @@ import { ButtonModule } from 'primeng/button';
 import { Chip } from 'primeng/chip';
 import { Router } from '@angular/router';
 import { PasswordModule } from 'primeng/password';
+import { AuthService } from '../service/auth.service';
+import { UserAuthenticationRequest } from '../interface/user-authentication-request.interface';
 
 @Component({
   selector: 'app-login',
@@ -15,14 +17,27 @@ import { PasswordModule } from 'primeng/password';
 })
 export class LoginComponent {
 
-  private router = inject(Router);
+  private _router = inject(Router);
+  private _authService = inject(AuthService);
+
 
   public SignUp() {
-    this.router.navigate(['/auth/register']);
+    this._router.navigate(['/auth/register']);
   }
 
   public SignIn() {
-    this.router.navigate(['/main']);
+    const request: UserAuthenticationRequest = {
+      username: 'alexis',
+      password: 'clave123'
+    };
+    this._authService.login(request).subscribe({
+      next: (data) => {
+
+      },
+      error: (error) => {
+
+      }
+    })
   }
 
 }

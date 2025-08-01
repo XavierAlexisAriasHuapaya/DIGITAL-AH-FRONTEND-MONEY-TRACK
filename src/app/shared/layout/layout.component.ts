@@ -6,6 +6,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { UserFormComponent } from '../../user/user-form/user-form.component';
 import { ToastService } from '../../utils/service/toast.service';
+import { AuthService } from '../../authentication/service/auth.service';
 
 
 @Component({
@@ -17,6 +18,7 @@ import { ToastService } from '../../utils/service/toast.service';
 })
 export class LayoutComponent implements OnInit {
 
+  private _authService = inject(AuthService);
   private _dialogService = inject(DialogService);
   private _dynamicDialogRef = inject(DynamicDialogRef);
   private _toastService = inject(ToastService);
@@ -58,9 +60,15 @@ export class LayoutComponent implements OnInit {
       {
         label: 'Sign Out',
         icon: 'pi pi-sign-out',
-        route: '/auth/login',
+        command: () => {
+          this.logout();
+        }
       },
     ];
+  }
+
+  logout() {
+    this._authService.logout();
   }
 
   openUser() {

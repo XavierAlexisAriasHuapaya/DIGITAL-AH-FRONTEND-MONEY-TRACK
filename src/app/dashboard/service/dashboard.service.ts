@@ -125,7 +125,6 @@ export class DashboardService {
             }
           ]
         };
-        // console.log(chart);
         return chart;
       })
     )

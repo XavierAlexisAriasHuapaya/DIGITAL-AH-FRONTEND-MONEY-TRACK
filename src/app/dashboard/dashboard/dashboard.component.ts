@@ -66,7 +66,6 @@ export class DashboardComponent implements OnInit {
   private getTransactionBarByUserId() {
     this._dashboardService.getTransactionBarByUserId(1).subscribe({
       next: (response) => {
-        console.log(response);
         this.dataMonth = response;
         this.optionsMonth = {
           indexAxis: 'y',
