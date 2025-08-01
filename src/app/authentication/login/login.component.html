@@ -8,24 +8,46 @@
                 <p-chip label="Google" icon="pi pi-google" />
             </div>
             <div class="container-form-sign-in">
-                <p-floatlabel variant="on">
-                    <input pInputText id="on_label" autocomplete="off" pSize="small" />
-                    <label for="on_label">Email</label>
-                </p-floatlabel>
-                <p-floatlabel variant="on">
-                    <p-password size="small" [toggleMask]="true" />
-                    <label for="on_label">Password</label>
-                </p-floatlabel>
-                <label class="forget-pwd">Forget Your Password?</label>
-                <div class="btn-sign-in">
-                    <p-button label="Enter Your Spending Hub" (onClick)="SignIn()"/>
-                    <p-button styleClass="btn-sign-up" label="Sign Up" (onClick)="SignUp()" />
-                </div>
+                <form (submit)="SignIn()" [formGroup]="myForm" autocomplete="off">
+                    <div class="group">
+                        <p-floatlabel variant="on">
+                            <input pInputText id="on_label" pSize="small" formControlName="username" />
+                            <label for="on_label">Email</label>
+                        </p-floatlabel>
+                        <div class="message-form">
+                            @if ( formUtils.isValidField( myForm, 'username') ) {
+                            <span class="form-text-danger">
+                                {{ formUtils.getFieldError(myForm, "username") }}
+                            </span>
+                            }
+                        </div>
+                    </div>
+                    <div class="group">
+                        <p-floatlabel variant="on">
+                            <p-password size="small" [toggleMask]="true" formControlName="password"
+                                [feedback]="false" />
+                            <label for="on_label">Password</label>
+                        </p-floatlabel>
+                        <div class="message-form">
+                            @if ( formUtils.isValidField( myForm, 'password') ) {
+                            <span class="form-text-danger">
+                                {{ formUtils.getFieldError(myForm, "password") }}
+                            </span>
+                            }
+                        </div>
+                    </div>
+                    <label class="forget-pwd">Forget Your Password?</label>
+                    <div class="btn-sign-in">
+                        <p-button type="submit" label="Enter Your Spending Hub" />
+                        <p-button styleClass="btn-sign-up" label="Sign Up" (onClick)="SignUp()" />
+                    </div>
+                </form>
             </div>
         </div>
         <div class="container-sign-up">
             <label class="title-sign-up">Track Your Spending Easily</label>
-            <p class="sign-up-description">Sign up to manage your card transactions and track your spending history.</p>
+            <p class="sign-up-description">Sign up to manage your card transactions and track your spending history.
+            </p>
             <p-button styleClass="btn-sign-up" label="Sign Up" (onClick)="SignUp()" />
         </div>
     </div>
