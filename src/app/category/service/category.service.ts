@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environments } from '../../environments/environments';
-import { catchError, map, Observable, retry, throwError } from 'rxjs';
+import { catchError, Observable, retry, throwError } from 'rxjs';
 import { PaginationInterface } from '../../utils/interface/pagination.interface';
 import { CategoryPagination } from '../interface/category-pagination.interface';
 import { CategoryCreate } from '../interface/category-create.interface';

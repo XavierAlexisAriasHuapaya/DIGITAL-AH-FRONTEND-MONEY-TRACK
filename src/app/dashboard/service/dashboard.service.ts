@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environments } from '../../environments/environments';
 import { HttpClient } from '@angular/common/http';
-import { catchError, count, delay, map, Observable, retry, throwError } from 'rxjs';
+import { catchError, map, Observable, retry, throwError } from 'rxjs';
 import { TransactionBalanceInterface } from '../../transaction/interface/transaction-balance.interface';
 import { TransactionBar } from '../../transaction/interface/transaction-bar.interface';
 import { ChartBarData } from '../interface/chart-bar.interface';

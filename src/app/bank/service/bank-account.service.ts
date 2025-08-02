@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environments } from '../../environments/environments';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, delay, Observable, retry, throwError } from 'rxjs';
+import { catchError, Observable, retry, throwError } from 'rxjs';
 import { PaginationInterface } from '../../utils/interface/pagination.interface';
 import { BankAccountPagination } from '../interface/bank-account-pagination.interface';
 import { ResponseInterface } from '../../utils/interface/response.interface';

@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { environments } from '../../environments/environments';
 import { HttpClient } from '@angular/common/http';
 import { UserUpdate } from '../interface/user-update.interface';
 import { catchError, Observable, retry, throwError } from 'rxjs';
@@ -7,6 +6,7 @@ import { ResponseInterface } from '../../utils/interface/response.interface';
 import { UserUpdatePassword } from '../interface/user-update-password.interface';
 import { UserFindOne } from '../interface/user-find-one.interface';
 import { AuthService } from '../../authentication/service/auth.service';
+import { environments } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
