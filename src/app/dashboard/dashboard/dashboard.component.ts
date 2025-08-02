@@ -24,30 +24,19 @@ export class DashboardComponent implements OnInit {
   dataMonth: any;
   dataIncome: any;
   dataExpense: any;
-
-  basicData: any;
-  basicData2: any;
+  dataMonthMoney: any;
 
   optionsMonth: any;
   optionsIncome: any;
   optionsExpense: any;
-
-  basicOptions: any;
-  basicOptions2: any;
-
-  platformId = inject(PLATFORM_ID);
-
-
-  constructor(private cd: ChangeDetectorRef) { }
-
+  optionsMonthMoney: any;
 
   ngOnInit() {
-    // this.initChart2();
-    // this.initChart3();
     this.getBalanceByUserId();
     this.getTransactionBarByUserId();
     this.getTransactionBarIncomeExpenseByUserIdAndType('INBOUND');
     this.getTransactionBarIncomeExpenseByUserIdAndType('OUTBOUND');
+    this.getTransactionLineByUserId();
   }
 
   private getBalanceByUserId() {
@@ -68,6 +57,7 @@ export class DashboardComponent implements OnInit {
       next: (response) => {
         this.dataMonth = response;
         this.optionsMonth = {
+          responsive: true,
           indexAxis: 'y',
           maintainAspectRatio: false,
           aspectRatio: 0.8,
@@ -82,16 +72,32 @@ export class DashboardComponent implements OnInit {
         if (type.includes('INBOUND')) {
           this.dataIncome = response;
           this.optionsIncome = {
+            responsive: true,
             maintainAspectRatio: false,
             aspectRatio: 0.8,
           };
         } else {
           this.dataExpense = response;
           this.optionsExpense = {
+            responsive: true,
             maintainAspectRatio: false,
             aspectRatio: 0.8,
           };
         }
+      }
+    });
+  }
+
+
+  private getTransactionLineByUserId() {
+    this._dashboardService.getTransactionLineByUserId(1).subscribe({
+      next: (response) => {
+        this.dataMonthMoney = response;
+        this.optionsMonthMoney = {
+          responsive: true,
+          maintainAspectRatio: false,
+          aspectRatio: 0.6
+        };
       }
     });
   }

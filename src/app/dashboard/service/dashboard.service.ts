@@ -62,6 +62,8 @@ export class DashboardService {
         let borderColorExpense = items.map((item) => item.borderColorExpense);
         borderColorExpense = [...borderColorExpense];
 
+        const backgroundColor = this.getUniquePrimaryColors(0.7, items.length);
+        const borderColor = backgroundColor;
 
         const chart: ChartBarData = {
           labels: labels,
@@ -85,6 +87,28 @@ export class DashboardService {
     )
   }
 
+  private getUniquePrimaryColors(alpha: number = 0.7, count: number): string[] {
+    const primaryColors = [
+      `rgba(255, 99, 132, ${alpha})`,   // Rojo suave
+      `rgba(54, 162, 235, ${alpha})`,   // Azul suave
+      `rgba(255, 206, 86, ${alpha})`,   // Amarillo suave
+      `rgba(75, 192, 192, ${alpha})`,   // Verde agua suave
+      `rgba(153, 102, 255, ${alpha})`,  // Morado suave
+      `rgba(255, 159, 64, ${alpha})`    // Naranja suave
+    ];
+
+    // Barajar los colores para que no salgan siempre en el mismo orden
+    const shuffled = [...primaryColors].sort(() => Math.random() - 0.5);
+
+    // Si hay más barras que colores, repetimos el ciclo sin que se repitan seguidas
+    const result: string[] = [];
+    while (result.length < count) {
+      result.push(...shuffled);
+    }
+
+    return result.slice(0, count);
+  }
+
   getTransactionBarIncomeExpenseByUserIdAndType(userId: number, type: string): Observable<ChartBarData> {
     const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/transaction/dashboard/bar/${userId}/type/${type}`;
@@ -101,23 +125,8 @@ export class DashboardService {
         let amount = items.map((item => item.amount));
         amount = [...amount];
 
-        // let backgroundColor, borderColor;
-        let backgroundColor: string[] = [];
-        let borderColor: string[] = [];
-
-        data.forEach(item => {
-          backgroundColor.push(
-            item.type.trim().includes('INBOUND')
-              ? "rgba(34, 197, 94, 0.70)"
-              : "rgba(255, 0, 0, 0.70)"
-          );
-
-          borderColor.push(
-            item.type.trim().includes('INBOUND')
-              ? "rgba(43, 255, 0, 0.2)"
-              : "rgba(255, 0, 0, 0.2)"
-          );
-        });
+        const backgroundColor = this.getUniquePrimaryColors(0.7, items.length);
+        const borderColor = backgroundColor;
 
         const chart: ChartBarData = {
           labels: labels,
@@ -130,6 +139,68 @@ export class DashboardService {
             }
           ]
         };
+        return chart;
+      })
+    )
+  }
+
+  getTransactionLineByUserId(userId: number): Observable<ChartBarData> {
+    const headers = this._authService.getHeaderToken();
+    const url = `${this._endPoint}/transaction/dashboard/bar/${userId}`;
+    return this._httpClient.get<TransactionBar[]>(url, { headers }).pipe(
+      retry({
+        count: 3,
+        delay: 1200
+      }),
+      catchError((error) => {
+        return throwError(() => error);
+      }),
+      map((data) => {
+        const items = Array.isArray(data) ? data : [data];
+        let labels = items.map((item) => item.month.trim());
+        labels = [...new Set(labels)];
+
+        let dataIncomeMonth = items.map((item) => item.income);
+        dataIncomeMonth = [...dataIncomeMonth];
+        let dataExpenseMonth = items.map((item) => item.expense);
+        dataExpenseMonth = [...dataExpenseMonth];
+
+        let backgroundIncome = items.map((item) => item.backgroundColorIncome)
+        backgroundIncome = [...backgroundIncome];
+        let borderColorIncome = items.map((item) => item.borderColorIncome);
+        borderColorIncome = [...borderColorIncome];
+
+        let backgroundExpense = items.map((item) => item.backgroundColorExpense)
+        backgroundExpense = [...backgroundExpense];
+        let borderColorExpense = items.map((item) => item.borderColorExpense);
+        borderColorExpense = [...borderColorExpense];
+
+        const backgroundColor = this.getUniquePrimaryColors(0.7, items.length);
+        const borderColor = backgroundColor;
+
+        const chart: ChartBarData = {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Income',
+              backgroundColor: backgroundIncome,
+              fill: false,
+              borderColor: borderColorIncome,
+              yAxisID: 'y',
+              tension: 0.4,
+              data: dataIncomeMonth
+            },
+            {
+              label: 'Expense',
+              backgroundColor: backgroundExpense,
+              fill: false,
+              borderColor: borderColorExpense,
+              yAxisID: 'y',
+              tension: 0.4,
+              data: dataExpenseMonth
+            }
+          ]
+        }
         return chart;
       })
     )

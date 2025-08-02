@@ -1,52 +1,56 @@
-<div class="contenedor">
-    <div class="general">
-        <div class="inb-out-balance">
+<div class="container">
+    <div class="inc-exp-container">
+        <div class="inc-exp-balance">
             <div class="title">
                 Total Income
             </div>
-            <p>{{ totalIncome | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ totalIncome | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
-        <div class="inb-out-balance">
+        <div class="inc-exp-balance">
             <div class="title">
                 Total Expenses
             </div>
-            <p>{{ totalExpense | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ totalExpense | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
-        <div class="inb-out-balance">
+        <div class="inc-exp-balance">
             <div class="title">
                 General Balance
             </div>
-            <p>{{ generalBalance | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ generalBalance | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
     </div>
-    <div class="to-moth">
-        <div class="inb-out-balance">
+    <div class="inc-exp-container">
+        <div class="inc-exp-balance">
             <div class="title">
                 Monthly Income
             </div>
-            <p>{{ monthlyIncome | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ monthlyIncome | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
-        <div class="inb-out-balance">
+        <div class="inc-exp-balance">
             <div class="title">
                 Monthly Expenses
             </div>
-            <p>{{ monthlyExpense | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ monthlyExpense | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
-        <div class="inb-out-balance">
+        <div class="inc-exp-balance">
             <div class="title">
                 Monthly Balance
             </div>
-            <p>{{ monthlyBalance | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ monthlyBalance | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
     </div>
 </div>
 
-<div class="contedor-charts">
-    <div class="chart-one">
-        <p-chart type="bar" [data]="dataMonth" [options]="optionsMonth"></p-chart>
-    </div>
-    <div class="chart-two">
-        <p-chart type="bar" [data]="dataIncome" [options]="optionsIncome"></p-chart>
-        <p-chart type="bar" [data]="dataExpense" [options]="optionsExpense"></p-chart>
-    </div>
+
+<div class="container-chart">
+    <p-chart type="bar" [data]="dataMonth" [options]="optionsMonth"></p-chart>
+</div>
+
+<div class="container-chart">
+    <p-chart type="bar" [data]="dataIncome" [options]="optionsIncome"></p-chart>
+    <p-chart type="pie" [data]="dataExpense" [options]="optionsExpense"></p-chart>
+</div>
+
+<div class="container-chart">
+    <p-chart type="line" [data]="dataMonthMoney" [options]="optionsMonthMoney"></p-chart>
 </div>
