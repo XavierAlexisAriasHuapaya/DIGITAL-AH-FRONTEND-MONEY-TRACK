@@ -41,6 +41,11 @@ export class AuthService {
     )
   }
 
+  loginGoogle(): void {
+    const url = `${this._endPoint}/oauth2/authorization/google`;
+    window.location.href = url;
+  }
+
   logout() {
     localStorage.removeItem('token');
     this._currentUsername.set('');

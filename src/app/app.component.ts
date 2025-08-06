@@ -4,6 +4,7 @@ import { ToastService } from './utils/service/toast.service';
 import { ToastModule, ToastPositionType } from 'primeng/toast';
 import { AuthService } from './authentication/service/auth.service';
 import { AuthenticationStatus } from './authentication/enum/authentication-status.enum';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent {
   private _authService = inject(AuthService);
   private _toastService = inject(ToastService);
   public toastPosition: ToastPositionType = 'center';
+  private _location = inject(Location);
 
   constructor() {
     this._toastService.position.subscribe(position => {
@@ -29,11 +31,29 @@ export class AppComponent {
   })
 
   public authStatusChangedEffect = effect(() => {
+    const path = this._location.path();
+    const token = path.includes('?token=') ? path.split('=')[1] : undefined;
+
     switch (this._authService.currentAuthStatus()) {
       case AuthenticationStatus.checking:
         return;
       case AuthenticationStatus.notAuthenticated:
-        this._router.navigateByUrl("/auth/login");
+
+        if (token && !localStorage.getItem('token')) {
+          localStorage.setItem('token', token);
+          this._authService.checkAuthStatus().subscribe(isValid => {
+            if (isValid) {
+              this._router.navigateByUrl("/main");
+            } else {
+              localStorage.removeItem('token');
+              this._router.navigateByUrl("/auth/login");
+            }
+          });
+        } else {
+          localStorage.removeItem('token');
+          this._router.navigateByUrl("/auth/login");
+        }
+
         return;
       case AuthenticationStatus.authenticated:
         this._router.navigateByUrl("/main")
