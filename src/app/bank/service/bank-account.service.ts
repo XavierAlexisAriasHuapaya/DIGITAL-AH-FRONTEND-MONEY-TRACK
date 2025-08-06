@@ -55,9 +55,9 @@ export class BankAccountService {
     );
   }
 
-  getAllBankAccountsByUserId(userId: number): Observable<BankAccountFindAll[]> {
+  getAllBankAccountsByUserId(): Observable<BankAccountFindAll[]> {
     const headers = this._authService.getHeaderToken();
-    const url = `${this._endPoint}/bank-account/user/${userId}`
+    const url = `${this._endPoint}/bank-account/user/${this._authService.currentUserId()}`
     return this._httpClient.get<BankAccountFindAll[]>(url, { headers }).pipe(
       retry(
         {
@@ -71,14 +71,14 @@ export class BankAccountService {
     )
   }
 
-  pagination(page: number, size: number, userId: number, search: string): Observable<PaginationInterface<BankAccountPagination>> {
+  pagination(page: number, size: number, search: string): Observable<PaginationInterface<BankAccountPagination>> {
     const headers = this._authService.getHeaderToken();
     const params = new HttpParams()
       .append('page', page)
       .append('size', size)
       .append('sort', 'createdAt,desc')
       .append('search', search);
-    const url = `${this._endPoint}/bank-account/pagination/${userId}`
+    const url = `${this._endPoint}/bank-account/pagination/${this._authService.currentUserId()}`
     return this._httpClient.get<PaginationInterface<BankAccountPagination>>(url, {
       params, headers
     }).pipe(

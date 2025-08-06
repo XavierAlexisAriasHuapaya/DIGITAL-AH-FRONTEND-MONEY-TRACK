@@ -17,9 +17,9 @@ export class DashboardService {
   private _httpClient = inject(HttpClient);
   private _authService = inject(AuthService);
 
-  getBalanceByUserId(userId: number): Observable<TransactionBalanceInterface> {
+  getBalanceByUserId(): Observable<TransactionBalanceInterface> {
     const headers = this._authService.getHeaderToken();
-    const url = `${this._endPoint}/transaction/balance/${userId}`;
+    const url = `${this._endPoint}/transaction/balance/${this._authService.currentUserId()}`;
     return this._httpClient.get<TransactionBalanceInterface>(url, { headers }).pipe(
       retry({
         count: 3,
@@ -31,9 +31,9 @@ export class DashboardService {
     );
   }
 
-  getTransactionBarByUserId(userId: number): Observable<ChartBarData> {
+  getTransactionBarByUserId(): Observable<ChartBarData> {
     const headers = this._authService.getHeaderToken();
-    const url = `${this._endPoint}/transaction/dashboard/bar/${userId}`;
+    const url = `${this._endPoint}/transaction/dashboard/bar/${this._authService.currentUserId()}`;
     return this._httpClient.get<TransactionBar[]>(url, { headers }).pipe(
       retry({
         count: 3,
@@ -109,9 +109,9 @@ export class DashboardService {
     return result.slice(0, count);
   }
 
-  getTransactionBarIncomeExpenseByUserIdAndType(userId: number, type: string): Observable<ChartBarData> {
+  getTransactionBarIncomeExpenseByUserIdAndType(type: string): Observable<ChartBarData> {
     const headers = this._authService.getHeaderToken();
-    const url = `${this._endPoint}/transaction/dashboard/bar/${userId}/type/${type}`;
+    const url = `${this._endPoint}/transaction/dashboard/bar/${this._authService.currentUserId()}/type/${type}`;
     return this._httpClient.get<TransactionIncomeExpense[]>(url, { headers }).pipe(
       retry({
         count: 3,
@@ -144,9 +144,9 @@ export class DashboardService {
     )
   }
 
-  getTransactionLineByUserId(userId: number): Observable<ChartBarData> {
+  getTransactionLineByUserId(): Observable<ChartBarData> {
     const headers = this._authService.getHeaderToken();
-    const url = `${this._endPoint}/transaction/dashboard/bar/${userId}`;
+    const url = `${this._endPoint}/transaction/dashboard/bar/${this._authService.currentUserId()}`;
     return this._httpClient.get<TransactionBar[]>(url, { headers }).pipe(
       retry({
         count: 3,

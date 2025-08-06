@@ -16,6 +16,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { CommonModule } from '@angular/common';
 import { FormUtils } from '../../utils/form-utils';
 import { TransactionCreate } from '../interface/transaction-create.interface';
+import { AuthService } from '../../authentication/service/auth.service';
 
 @Component({
   selector: 'app-transaction-form',
@@ -33,6 +34,7 @@ export class TransactionFormComponent implements OnInit {
   private _formBuilder = inject(FormBuilder);
   private _categoryService = inject(CategoryService);
   private _bankAccountService = inject(BankAccountService);
+  private _authService = inject(AuthService);
 
   public categoriesData: CategoryFindAll[] = [];
   public bankAccountOriginData: BankAccountFindAll[] = [];
@@ -40,13 +42,12 @@ export class TransactionFormComponent implements OnInit {
   public id?: number;
   public bankAccountDestinationReadonly: boolean = true;
 
-  private userId: number = 1;
   private bankAccountOriginId: number = 0;
 
 
   public myForm = this._formBuilder.group({
     user: this._formBuilder.group({
-      id: [this.userId, [Validators.required]]
+      id: [this._authService.currentUserId(), [Validators.required]]
     }),
     category: this._formBuilder.group({
       id: [null, [Validators.required, Validators.min(1)]]
@@ -84,7 +85,7 @@ export class TransactionFormComponent implements OnInit {
   }
 
   getCategories() {
-    this._categoryService.findAllCategoryByUserId(this.userId).subscribe({
+    this._categoryService.findAllCategoryByUserId().subscribe({
       next: (data) => {
         this.categoriesData = data;
       }
@@ -92,7 +93,7 @@ export class TransactionFormComponent implements OnInit {
   }
 
   getAllBankAccountsOrigin() {
-    this._bankAccountService.getAllBankAccountsByUserId(this.userId).subscribe({
+    this._bankAccountService.getAllBankAccountsByUserId().subscribe({
       next: (data) => {
         this.bankAccountOriginData = data;
       }
@@ -100,7 +101,7 @@ export class TransactionFormComponent implements OnInit {
   }
 
   getAllBankAccountsDestination(bankAccountOriginId: number) {
-    this._bankAccountService.getAllBankAccountsByUserId(this.userId).subscribe({
+    this._bankAccountService.getAllBankAccountsByUserId().subscribe({
       next: (data) => {
         this.bankAccountDestinationData = data.filter(bankAccount => bankAccount.id !== bankAccountOriginId);;
       }
@@ -114,7 +115,7 @@ export class TransactionFormComponent implements OnInit {
     }
     const transactionCreate: TransactionCreate = {
       user: {
-        id: this.userId
+        id: this.myForm.get('user')?.get('id')?.value ?? 0
       },
       category: {
         id: this.myForm.get('category')?.get('id')?.value ?? 0

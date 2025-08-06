@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private getBalanceByUserId() {
-    this._dashboardService.getBalanceByUserId(1).subscribe({
+    this._dashboardService.getBalanceByUserId().subscribe({
       next: (response) => {
         this.totalIncome = response.amount_inbound;
         this.totalExpense = response.amount_outbound;
@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private getTransactionBarByUserId() {
-    this._dashboardService.getTransactionBarByUserId(1).subscribe({
+    this._dashboardService.getTransactionBarByUserId().subscribe({
       next: (response) => {
         this.dataMonth = response;
         this.optionsMonth = {
@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private getTransactionBarIncomeExpenseByUserIdAndType(type: string) {
-    this._dashboardService.getTransactionBarIncomeExpenseByUserIdAndType(1, type).subscribe({
+    this._dashboardService.getTransactionBarIncomeExpenseByUserIdAndType(type).subscribe({
       next: (response) => {
         if (type.includes('INBOUND')) {
           this.dataIncome = response;
@@ -96,7 +96,7 @@ export class DashboardComponent implements OnInit {
 
 
   private getTransactionLineByUserId() {
-    this._dashboardService.getTransactionLineByUserId(1).subscribe({
+    this._dashboardService.getTransactionLineByUserId().subscribe({
       next: (response) => {
         this.dataMonthMoney = response;
         this.optionsMonthMoney = {

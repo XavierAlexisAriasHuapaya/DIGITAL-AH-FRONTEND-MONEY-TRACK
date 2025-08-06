@@ -9,6 +9,7 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ToastService } from '../../utils/service/toast.service';
 import { BankAccountCreate } from '../interface/bank-account-create.interface';
 import { BankAccountUpdate } from '../interface/bank-account-update.interface';
+import { AuthService } from '../../authentication/service/auth.service';
 
 @Component({
   selector: 'app-bank-form',
@@ -22,6 +23,7 @@ export class BankFormComponent implements OnInit {
   private _dyanmicDialogConfig = inject(DynamicDialogConfig);
   private _formBuilder = inject(FormBuilder);
   private _bankAccountService = inject(BankAccountService);
+  private _authService = inject(AuthService);
   private readonly _toastService = inject(ToastService);
 
   public id?: number;
@@ -45,7 +47,7 @@ export class BankFormComponent implements OnInit {
     typeAccount: ['', [Validators.required]],
     name: ['', [Validators.required]],
     user: this._formBuilder.group({
-      id: [1, [Validators.required]]
+      id: [this._authService.currentUserId(), [Validators.required]]
     })
   });
 
@@ -67,7 +69,7 @@ export class BankFormComponent implements OnInit {
       typeAccount: this.myForm.get('typeAccount')?.value ?? '',
       name: this.myForm.get('name')?.value ?? '',
       user: {
-        id: this.myForm.get('user')?.get('id')?.value ?? 1
+        id: this.myForm.get('user')?.get('id')?.value ?? 0
       }
     };
     this._bankAccountService.createBankAccount(bankAccount).subscribe({

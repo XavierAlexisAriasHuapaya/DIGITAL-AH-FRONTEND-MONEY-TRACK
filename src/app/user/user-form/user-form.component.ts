@@ -11,6 +11,7 @@ import { CountryService } from '../service/country.service';
 import { PasswordModule } from 'primeng/password';
 import { UserService } from '../service/user.service';
 import { UserUpdate } from '../interface/user-update.interface';
+import { AuthService } from '../../authentication/service/auth.service';
 
 @Component({
   selector: 'app-user-form',
@@ -25,10 +26,13 @@ export class UserFormComponent implements OnInit {
   private readonly _toastService = inject(ToastService);
   private readonly _countryService = inject(CountryService);
   private readonly _userService = inject(UserService);
+  private _authService = inject(AuthService);
 
-  public id: number = 1;
   public countryData: CountryInterface[] = [];
   public myForm = this._formBuilder.group({
+    user: this._formBuilder.group({
+      id: [this._authService.currentUserId(), [Validators.required]]
+    }),
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     country: this._formBuilder.group({
@@ -45,7 +49,7 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.findAllCountry();
-    this._userService.findById(this.id).subscribe({
+    this._userService.findById().subscribe({
       next: (response) => {
         this.myForm.patchValue({
           firstName: response.firstName,
@@ -74,7 +78,7 @@ export class UserFormComponent implements OnInit {
 
   update() {
     const user: UserUpdate = {
-      id: this.id,
+      id: this.myForm.get('user')?.get('id')?.value ?? 0,
       firstName: this.myForm.get('firstName')?.value ?? '',
       lastName: this.myForm.get('lastName')?.value ?? '',
       country: {

@@ -68,7 +68,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   }
 
   paginationCategories(search?: string) {
-    this._categoryService.paginationCategories(this.page, this.pageSize, 1, search).subscribe({
+    this._categoryService.paginationCategories(this.page, this.pageSize, search).subscribe({
       next: (response) => {
         this.totalElements = response.totalElements;
         this.categories = response.content;

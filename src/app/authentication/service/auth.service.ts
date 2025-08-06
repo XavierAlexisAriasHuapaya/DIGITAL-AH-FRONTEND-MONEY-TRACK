@@ -88,8 +88,8 @@ export class AuthService {
 
   private setAuthentication(response: UserAuthenticationResponse): boolean {
     const subject = this.decodeToken(response.jwt).sub ?? '';
-    const userId = this.decodeToken(response.jwt).id ?? 0;
-
+    const userId = this.decodeToken(response.jwt).userId ?? 0;
+    
     this._currentUsername.set(subject);
     this._currentUserId.set(userId);
     this._currentAuthStatus.set(AuthenticationStatus.authenticated);

@@ -20,9 +20,9 @@ export class CategoryService {
   private _endPoint = environments.endPoint;
   private _authService = inject(AuthService);
 
-  paginationCategories(page: number, size: number, userId: number, search?: string): Observable<PaginationInterface<CategoryPagination>> {
+  paginationCategories(page: number, size: number, search?: string): Observable<PaginationInterface<CategoryPagination>> {
     const headers = this._authService.getHeaderToken();
-    const url = `${this._endPoint}/category/pagination/${userId}`
+    const url = `${this._endPoint}/category/pagination/${this._authService.currentUserId()}`
     const params = new HttpParams()
       .append('page', page)
       .append('size', size)
@@ -39,9 +39,9 @@ export class CategoryService {
     )
   }
 
-  findAllCategoryByUserId(userId: number): Observable<CategoryFindAll[]> {
+  findAllCategoryByUserId(): Observable<CategoryFindAll[]> {
     const headers = this._authService.getHeaderToken();
-    const url = `${this._endPoint}/category/user/${userId}`
+    const url = `${this._endPoint}/category/user/${this._authService.currentUserId()}`
     return this._httpCliente.get<CategoryFindAll[]>(url, { headers }).pipe(
       retry({
         count: 3,

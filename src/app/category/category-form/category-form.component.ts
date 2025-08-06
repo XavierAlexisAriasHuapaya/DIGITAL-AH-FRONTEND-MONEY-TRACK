@@ -9,6 +9,7 @@ import { CategoryService } from '../service/category.service';
 import { CategoryCreate } from '../interface/category-create.interface';
 import { CategoryUpdate } from '../interface/category-update.interface';
 import { ToastService } from '../../utils/service/toast.service';
+import { AuthService } from '../../authentication/service/auth.service';
 
 @Component({
   selector: 'app-category-form',
@@ -22,6 +23,7 @@ export class CategoryFormComponent implements OnInit {
   private _dyanmicDialogConfig = inject(DynamicDialogConfig);
   private _formBuilder = inject(FormBuilder);
   private _categoryService = inject(CategoryService);
+  private _authService = inject(AuthService);
   private readonly _toastService = inject(ToastService);
 
   public id?: number;
@@ -39,7 +41,7 @@ export class CategoryFormComponent implements OnInit {
     type: ['', [Validators.required]],
     description: ['', [Validators.required]],
     user: this._formBuilder.group({
-      id: [1, [Validators.required]]
+      id: [this._authService.currentUserId(), [Validators.required]]
     })
   });
 
@@ -76,7 +78,7 @@ export class CategoryFormComponent implements OnInit {
       description: this.myForm.get('description')?.value ?? '',
       type: this.myForm.get('type')?.value ?? '',
       user: {
-        id: this.myForm.get('user')?.get('id')?.value ?? 1
+        id: this.myForm.get('user')?.get('id')?.value ?? 0
       }
     };
     this._categoryService.createCategory(category).subscribe({

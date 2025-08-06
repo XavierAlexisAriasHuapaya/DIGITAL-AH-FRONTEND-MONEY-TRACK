@@ -19,8 +19,7 @@ export class TransactionService {
 
   pagination(page: number, size: number, search: string): Observable<PaginationInterface<TransactionPagination>> {
     const headers = this._authService.getHeaderToken();
-    const userId = 1;
-    const url = `${this._endPoint}/transaction/pagination/${userId}`;
+    const url = `${this._endPoint}/transaction/pagination/${this._authService.currentUserId()}`;
     const params = new HttpParams()
       .append('page', page)
       .append('size', size)

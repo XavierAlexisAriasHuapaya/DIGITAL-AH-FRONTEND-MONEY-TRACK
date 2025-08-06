@@ -79,7 +79,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   paginationBankAccount(search?: string) {
-    this._bankAccountService.pagination(this.page, this.pageSize, 1, search ?? '').subscribe({
+    this._bankAccountService.pagination(this.page, this.pageSize, search ?? '').subscribe({
       next: (response) => {
         this.bankAccounts = response.content;
         this.totalElements = response.totalElements;
