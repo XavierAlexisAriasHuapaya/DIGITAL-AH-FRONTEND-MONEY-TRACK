@@ -1,7 +1,6 @@
 import { CurrencyPipe, isPlatformBrowser } from '@angular/common';
-import { ChangeDetectorRef, Component, effect, inject, OnInit, PLATFORM_ID } from '@angular/core'; 1
+import { Component, effect, inject, OnInit, PLATFORM_ID } from '@angular/core'; 1
 import { ChartModule } from 'primeng/chart';
-import { TransactionService } from '../../transaction/service/transaction.service';
 import { DashboardService } from '../service/dashboard.service';
 
 @Component({
@@ -13,6 +12,7 @@ import { DashboardService } from '../service/dashboard.service';
 export class DashboardComponent implements OnInit {
 
   private readonly _dashboardService = inject(DashboardService);
+  private _platformId = inject(PLATFORM_ID);
 
   public totalIncome: number = 0;
   public totalExpense: number = 0
@@ -31,12 +31,22 @@ export class DashboardComponent implements OnInit {
   optionsExpense: any;
   optionsMonthMoney: any;
 
+  themeEffect = effect(() => {
+    this.initChart();
+  })
+
   ngOnInit() {
-    this.getBalanceByUserId();
-    this.getTransactionBarByUserId();
-    this.getTransactionBarIncomeExpenseByUserIdAndType('INBOUND');
-    this.getTransactionBarIncomeExpenseByUserIdAndType('OUTBOUND');
-    this.getTransactionLineByUserId();
+    this.initChart();
+  }
+
+  private initChart() {
+    if (isPlatformBrowser(this._platformId)) {
+      this.getBalanceByUserId();
+      this.getTransactionBarByUserId();
+      this.getTransactionBarIncomeExpenseByUserIdAndType('INBOUND');
+      this.getTransactionBarIncomeExpenseByUserIdAndType('OUTBOUND');
+      this.getTransactionLineByUserId();
+    }
   }
 
   private getBalanceByUserId() {
