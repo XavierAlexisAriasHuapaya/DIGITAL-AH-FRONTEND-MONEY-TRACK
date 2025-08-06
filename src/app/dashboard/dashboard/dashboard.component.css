@@ -11,6 +11,11 @@
 }
 
 .container-chart {
+    .title {
+        font-size: 20px;
+        font-weight: 500;
+    }
+
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -24,12 +29,25 @@
     background: white;
 }
 
+.top {
+    margin-bottom: 0.8rem;
+}
+
+.container-chart-element-month {
+    flex: 1 1 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .container-chart-element {
     flex: 1 1 48%;
     max-width: 48%;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .inc-exp-container {
@@ -67,6 +85,11 @@ p-chart {
 @media (max-width: 959px) {
 
     .container-chart {
+        .title {
+            font-size: 15px;
+            text-align: center;
+        }
+
         display: flex;
         flex-direction: column;
         row-gap: 2rem;

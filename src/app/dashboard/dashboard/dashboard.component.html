@@ -43,18 +43,38 @@
 
 
 <div class="container-chart">
-    <p-chart type="bar" [data]="dataMonth" [options]="optionsMonth"></p-chart>
+    <div class="title">
+        <p>Annual Income and Expense Summary</p>
+    </div>
+    <div class="container-chart-element-month">
+        <p-chart type="bar" [data]="dataMonth" [options]="optionsMonth"></p-chart>
+    </div>
 </div>
 
 <div class="container-chart">
     <div class="container-chart-element">
+        <div class="top">
+            <div class="title">
+                <p>Top 5 Income Categories</p>
+            </div>
+        </div>
         <p-chart type="bar" [data]="dataIncome" [options]="optionsIncome"></p-chart>
     </div>
     <div class="container-chart-element">
+        <div class="top">
+            <div class="title">
+                <p>Top 5 Expense Categories</p>
+            </div>
+        </div>
         <p-chart type="doughnut" [data]="dataExpense" [options]="optionsExpense"></p-chart>
     </div>
 </div>
 
 <div class="container-chart">
-    <p-chart type="line" [data]="dataMonthMoney" [options]="optionsMonthMoney"></p-chart>
+    <div class="title">
+        <p>Monthly Income and Expense Trend</p>
+    </div>
+    <div class="container-chart-element-month">
+        <p-chart type="line" [data]="dataMonthMoney" [options]="optionsMonthMoney"></p-chart>
+    </div>
 </div>
