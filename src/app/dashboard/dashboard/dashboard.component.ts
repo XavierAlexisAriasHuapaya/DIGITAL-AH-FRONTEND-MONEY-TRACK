@@ -30,11 +30,7 @@ export class DashboardComponent implements OnInit {
   optionsIncome: any;
   optionsExpense: any;
   optionsMonthMoney: any;
-
-  themeEffect = effect(() => {
-    this.initChart();
-  })
-
+  
   ngOnInit() {
     this.initChart();
   }
