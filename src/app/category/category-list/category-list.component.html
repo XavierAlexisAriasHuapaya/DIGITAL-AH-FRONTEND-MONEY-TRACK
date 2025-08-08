@@ -1,21 +1,23 @@
 <div class="container">
     <div class="container-header">
-        <label for="title">Categories</label>
-        <p-button label="Create" icon="pi pi-plus" [rounded]="true" severity="success" (onClick)="createCategory()" />
+        <label for="title">{{'Categories' | translate}}</label>
+        <p-button label="{{'Create' | translate}}" icon="pi pi-plus" [rounded]="true" severity="success"
+            (onClick)="createCategory()" />
     </div>
     <div class="card">
         <p-table [value]="categories" [rows]="page" [tableStyle]="{ 'min-width': '50rem' }" size="small">
             <ng-template #caption>
                 <p-iconfield>
                     <p-inputicon styleClass="pi pi-search" />
-                    <input type="text" pInputText [formControl]="searchControl" placeholder="Search" pSize="small" />
+                    <input type="text" pInputText [formControl]="searchControl" placeholder="{{'Search' | translate}}"
+                        pSize="small" />
                 </p-iconfield>
             </ng-template>
             <ng-template #header class="table-header">
                 <tr>
-                    <th style="width:45%">Type Movement</th>
-                    <th style="width:45%">Description</th>
-                    <th style="width:10%">Action</th>
+                    <th style="width:45%">{{'Type Movement' | translate}}</th>
+                    <th style="width:45%">{{'Description' | translate}}</th>
+                    <th style="width:10%">{{'Action' | translate}}</th>
                 </tr>
             </ng-template>
             <ng-template #body let-customer>

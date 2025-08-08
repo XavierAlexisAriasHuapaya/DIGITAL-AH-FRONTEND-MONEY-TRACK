@@ -1,10 +1,11 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ToastService } from './utils/service/toast.service';
 import { ToastModule, ToastPositionType } from 'primeng/toast';
 import { AuthService } from './authentication/service/auth.service';
 import { AuthenticationStatus } from './authentication/enum/authentication-status.enum';
 import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,19 @@ import { Location } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   private _router = inject(Router);
   private _authService = inject(AuthService);
   private _toastService = inject(ToastService);
   public toastPosition: ToastPositionType = 'center';
   private _location = inject(Location);
+  private _translateService = inject(TranslateService);
+
+  ngOnInit(): void {
+    this._translateService.addLangs(['en', 'es']);
+    this._translateService.use('es');
+  }
 
   constructor() {
     this._toastService.position.subscribe(position => {
@@ -28,6 +35,10 @@ export class AppComponent {
 
   public finishedAuthCheck = computed(() => {
     return this._authService.currentAuthStatus() == AuthenticationStatus.checking ? false : true;
+  })
+
+  public languageChangedEffect = effect(() => {
+    this._translateService.use(this._authService.currentLanguage());
   })
 
   public authStatusChangedEffect = effect(() => {

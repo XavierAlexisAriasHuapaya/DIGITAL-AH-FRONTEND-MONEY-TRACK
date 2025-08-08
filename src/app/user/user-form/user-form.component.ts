@@ -12,10 +12,11 @@ import { PasswordModule } from 'primeng/password';
 import { UserService } from '../service/user.service';
 import { UserUpdate } from '../interface/user-update.interface';
 import { AuthService } from '../../authentication/service/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-form',
-  imports: [ButtonModule, InputTextModule, FloatLabel, SelectModule, ReactiveFormsModule, PasswordModule],
+  imports: [ButtonModule, InputTextModule, FloatLabel, SelectModule, ReactiveFormsModule, PasswordModule, TranslatePipe],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css'
 })

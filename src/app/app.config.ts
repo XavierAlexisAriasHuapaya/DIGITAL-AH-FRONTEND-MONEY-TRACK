@@ -10,6 +10,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import localeEsPE from '@angular/common/locales/es-PE';
 import { registerLocaleData } from '@angular/common';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 registerLocaleData(localeEsPE, 'es-PE');
 
@@ -25,6 +27,10 @@ export const appConfig: ApplicationConfig = {
       }
     }),
     provideHttpClient(),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({ prefix: './i18n/', suffix: '.json' }),
+      fallbackLang: 'en'
+    }),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     MessageService

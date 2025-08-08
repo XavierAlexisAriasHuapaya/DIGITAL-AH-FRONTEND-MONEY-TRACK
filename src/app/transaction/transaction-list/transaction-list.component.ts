@@ -14,10 +14,12 @@ import { ToastService } from '../../utils/service/toast.service';
 import { TransactionPagination } from '../interface/transaction-pagination.interface';
 import { TransactionService } from '../service/transaction.service';
 import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-transaction-list',
-  imports: [TableModule, CommonModule, IconField, InputIcon, InputTextModule, ButtonModule, DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule],
+  imports: [TableModule, CommonModule, IconField, InputIcon, InputTextModule,
+    ButtonModule, DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.css',
   providers: [DialogService, DynamicDialogRef]
@@ -27,7 +29,7 @@ export class TransactionListComponent implements OnInit {
   private readonly _dialogService = inject(DialogService);
   private _dynamicDialogRef = inject(DynamicDialogRef);
   private _transactionService = inject(TransactionService);
-  private readonly _toastService = inject(ToastService);
+  private _translateService = inject(TranslateService);
 
   public transactionData: TransactionPagination[] = [];
   public items: MenuItem[] = [];
@@ -43,12 +45,14 @@ export class TransactionListComponent implements OnInit {
 
 
   openToggle(menu: Menu, event: any, id: number) {
+    const itemLabel = this._translateService.instant('Options');
+    const itemEdit = this._translateService.instant('Edit');
     this.items = [
       {
-        label: 'Options',
+        label: itemLabel,
         items: [
           {
-            label: 'Edit',
+            label: itemEdit,
             icon: 'pi pi-pen-to-square',
             command: () => {
               this.updateTransaction(id);
@@ -76,8 +80,9 @@ export class TransactionListComponent implements OnInit {
   }
 
   createTransaction() {
+    const headerText = this._translateService.instant('Create Transaction');
     this._dynamicDialogRef = this._dialogService.open(TransactionFormComponent, {
-      header: 'Create Transaction',
+      header: headerText,
       dismissableMask: true,
       width: '25%',
       contentStyle: { overflow: 'auto' },

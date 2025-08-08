@@ -20,10 +20,12 @@ export class AuthService {
   private _currentUsername = signal<string | ''>('');
   private _currentUserId = signal<number | 0>(0);
   private _currentAuthStatus = signal<AuthenticationStatus>(AuthenticationStatus.checking);
+  private _currentLanguage = signal<string | ''>('');
 
   public currentUsername = computed(() => this._currentUsername());
   public currentUserId = computed(() => this._currentUserId());
   public currentAuthStatus = computed(() => this._currentAuthStatus());
+  public currentLanguage = computed(() => this._currentLanguage());
 
   constructor() {
     this.checkAuthStatus().subscribe();
@@ -41,6 +43,11 @@ export class AuthService {
     )
   }
 
+  setLanguage(language: string) {
+    this._currentLanguage.set(language);
+    localStorage.setItem('language', language);
+  }
+
   loginGoogle(): void {
     const url = `${this._endPoint}/oauth2/authorization/google`;
     window.location.href = url;
@@ -48,8 +55,10 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('language');
     this._currentUsername.set('');
     this._currentUserId.set(0);
+    this._currentLanguage.set('en');
     this._currentAuthStatus.set(AuthenticationStatus.notAuthenticated);
   }
 
@@ -89,12 +98,16 @@ export class AuthService {
   private setAuthentication(response: UserAuthenticationResponse): boolean {
     const subject = this.decodeToken(response.jwt).sub ?? '';
     const userId = this.decodeToken(response.jwt).userId ?? 0;
-    
+    const language = this.decodeToken(response.jwt).language ?? 'en';
     this._currentUsername.set(subject);
     this._currentUserId.set(userId);
     this._currentAuthStatus.set(AuthenticationStatus.authenticated);
 
     localStorage.setItem('token', response.jwt);
+    if (!localStorage.getItem('language')) {
+      localStorage.setItem('language', language);
+    }
+    this._currentLanguage.set(localStorage.getItem('language')?.toString() ?? 'en');
     return true;
   }
 

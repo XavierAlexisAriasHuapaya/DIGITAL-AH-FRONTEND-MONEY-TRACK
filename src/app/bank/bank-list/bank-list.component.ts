@@ -15,10 +15,12 @@ import { MenuItem } from 'primeng/api';
 import { debounceTime } from 'rxjs';
 import { BankAccountService } from '../service/bank-account.service';
 import { BankFormComponent } from '../bank-form/bank-form.component';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-bank-list',
-  imports: [TableModule, CommonModule, IconField, InputIcon, InputTextModule, ButtonModule, DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule],
+  imports: [TableModule, CommonModule, IconField, InputIcon, InputTextModule,
+    ButtonModule, DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './bank-list.component.html',
   styleUrl: './bank-list.component.css',
   providers: [DialogService, DynamicDialogRef]
@@ -29,6 +31,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   private _dynamicDialogRef = inject(DynamicDialogRef);
   private _bankAccountService = inject(BankAccountService);
   private readonly _toastService = inject(ToastService);
+  private _translateService = inject(TranslateService);
 
   public bankAccounts: BankAccountPagination[] = [];
   public items: MenuItem[] = [];
@@ -55,20 +58,22 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   openToggle(menu: Menu, event: any, id: number) {
-    this.items = [
-      {
-        label: 'Options',
-        items: [
-          {
-            label: 'Edit',
-            icon: 'pi pi-pen-to-square',
-            command: () => {
-              this.updateBankAccount(id);
+    const label = this._translateService.instant('Options');
+    const itemEdit = this._translateService.instant('Edit');
+      this.items = [
+        {
+          label: label,
+          items: [
+            {
+              label: itemEdit,
+              icon: 'pi pi-pen-to-square',
+              command: () => {
+                this.updateBankAccount(id);
+              }
             }
-          }
-        ]
-      }
-    ];
+          ]
+        }
+      ];
     menu.toggle(event);
   }
 
@@ -91,8 +96,9 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   createBankAccount() {
+    const headerText = this._translateService.instant('Create Bank Account');
     this._dynamicDialogRef = this._dialogService.open(BankFormComponent, {
-      header: 'Create Bank Account',
+      header: headerText,
       dismissableMask: true,
       width: '25%',
       contentStyle: { overflow: 'auto' },
@@ -115,8 +121,9 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   updateBankAccount(id: number) {
+    const headerText = this._translateService.instant('Update Bank Account');
     this._dynamicDialogRef = this._dialogService.open(BankFormComponent, {
-      header: 'Update Bank Account',
+      header: headerText,
       dismissableMask: true,
       width: '25%',
       contentStyle: { overflow: 'auto' },

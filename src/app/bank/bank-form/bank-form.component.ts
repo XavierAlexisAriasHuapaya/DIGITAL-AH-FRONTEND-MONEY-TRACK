@@ -10,10 +10,11 @@ import { ToastService } from '../../utils/service/toast.service';
 import { BankAccountCreate } from '../interface/bank-account-create.interface';
 import { BankAccountUpdate } from '../interface/bank-account-update.interface';
 import { AuthService } from '../../authentication/service/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-bank-form',
-  imports: [ButtonModule, InputTextModule, FloatLabel, SelectModule, ReactiveFormsModule],
+  imports: [ButtonModule, InputTextModule, FloatLabel, SelectModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './bank-form.component.html',
   styleUrl: './bank-form.component.css'
 })

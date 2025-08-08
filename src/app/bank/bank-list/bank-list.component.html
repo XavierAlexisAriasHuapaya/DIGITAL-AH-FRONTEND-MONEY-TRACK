@@ -1,7 +1,7 @@
 <div class="container">
     <div class="container-header">
-        <label for="title">Bank Accounts</label>
-        <p-button label="Create" icon="pi pi-plus" [rounded]="true" severity="success"
+        <label for="title">{{'Bank Accounts' | translate}}</label>
+        <p-button label="{{'Create' | translate}}" icon="pi pi-plus" [rounded]="true" severity="success"
             (onClick)="createBankAccount()" />
     </div>
     <div class="card">
@@ -14,9 +14,9 @@
             </ng-template>
             <ng-template #header class="table-header">
                 <tr>
-                    <th style="width:45%">Type Account</th>
-                    <th style="width:45%">Name</th>
-                    <th style="width:10%">Action</th>
+                    <th style="width:45%">{{'Type Account' | translate}}</th>
+                    <th style="width:45%">{{'Name' | translate}}</th>
+                    <th style="width:10%">{{'Action' | translate}}</th>
                 </tr>
             </ng-template>
             <ng-template #body let-bankAccount>

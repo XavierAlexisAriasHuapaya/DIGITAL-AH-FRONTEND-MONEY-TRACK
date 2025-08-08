@@ -10,10 +10,11 @@ import { CategoryCreate } from '../interface/category-create.interface';
 import { CategoryUpdate } from '../interface/category-update.interface';
 import { ToastService } from '../../utils/service/toast.service';
 import { AuthService } from '../../authentication/service/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-category-form',
-  imports: [ButtonModule, InputTextModule, FloatLabel, SelectModule, ReactiveFormsModule],
+  imports: [ButtonModule, InputTextModule, FloatLabel, SelectModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './category-form.component.html',
   styleUrl: './category-form.component.css'
 })

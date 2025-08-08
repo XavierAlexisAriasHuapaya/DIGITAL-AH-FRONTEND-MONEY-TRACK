@@ -17,10 +17,12 @@ import { CommonModule } from '@angular/common';
 import { FormUtils } from '../../utils/form-utils';
 import { TransactionCreate } from '../interface/transaction-create.interface';
 import { AuthService } from '../../authentication/service/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-transaction-form',
-  imports: [ButtonModule, InputTextModule, FloatLabel, SelectModule, ReactiveFormsModule, InputNumber, DatePickerModule, CommonModule],
+  imports: [ButtonModule, InputTextModule, FloatLabel, SelectModule, ReactiveFormsModule,
+    InputNumber, DatePickerModule, CommonModule, TranslatePipe],
   templateUrl: './transaction-form.component.html',
   styleUrl: './transaction-form.component.css'
 })

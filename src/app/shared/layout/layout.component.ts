@@ -7,25 +7,66 @@ import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dy
 import { UserFormComponent } from '../../user/user-form/user-form.component';
 import { ToastService } from '../../utils/service/toast.service';
 import { AuthService } from '../../authentication/service/auth.service';
-
+import { InputTextModule } from 'primeng/inputtext';
+import { DrawerModule } from 'primeng/drawer';
+import { SelectModule } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
+import { LanguageService } from '../../service/language.service';
+import { LanguageInterface } from '../../interface/language.interface';
+import { UserSettingService } from '../../user/service/user-setting.service';
+import { UserSettingUpdate } from '../../user/interface/user-setting-update.interface';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-layout',
-  imports: [Menubar, CommonModule, RouterOutlet, RouterLink, DynamicDialogModule],
+  imports: [Menubar, CommonModule, RouterOutlet, RouterLink, DynamicDialogModule, InputTextModule,
+    DrawerModule, SelectModule, FormsModule, TranslatePipe],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css',
   providers: [DialogService, DynamicDialogRef]
 })
 export class LayoutComponent implements OnInit {
 
+  public configDrawer = false;
+  public languages: LanguageInterface[] = [];
+  public languageSelected = '';
+  public languageLabelSelected = '';
+
   private _authService = inject(AuthService);
   private _dialogService = inject(DialogService);
   private _dynamicDialogRef = inject(DynamicDialogRef);
   private _toastService = inject(ToastService);
+  private _languageService = inject(LanguageService);
+  private _userSettingService = inject(UserSettingService);
+  private _translateService = inject(TranslateService);
 
   items: MenuItem[] | undefined;
-
   ngOnInit() {
+    this.getAllLanguages();
+    this.loadMenus();
+    this.languageSelected = this._authService.currentLanguage();
+  }
+
+  selectedLanguage(event: any) {
+    this._authService.setLanguage(event.value);
+    const setting: UserSettingUpdate = {
+      id: 7,
+      currency: '',
+      language: event.value,
+      notifications: false,
+      theme: 'dark',
+    };
+    this._userSettingService.updateLanguage(setting).subscribe({
+      next: (response) => {
+      }
+    });
+  }
+
+  getAllLanguages() {
+    this.languages = this._languageService.getAllLanguage();
+  }
+
+  loadMenus() {
     this.items = [
       {
         label: 'Dashboard',
@@ -72,8 +113,9 @@ export class LayoutComponent implements OnInit {
   }
 
   openUser() {
+    const headerText = this._translateService.instant('Update User');
     this._dynamicDialogRef = this._dialogService.open(UserFormComponent, {
-      header: 'Update User',
+      header: headerText,
       dismissableMask: true,
       width: '25%',
       contentStyle: { overflow: 'auto' },
@@ -99,5 +141,9 @@ export class LayoutComponent implements OnInit {
         }
       }
     })
+  }
+
+  changedConfig() {
+    this.configDrawer = !this.configDrawer;
   }
 }

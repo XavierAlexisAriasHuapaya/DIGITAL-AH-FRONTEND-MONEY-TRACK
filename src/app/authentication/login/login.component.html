@@ -1,11 +1,11 @@
 <div class="wrapper">
     <div class="container">
         <div class="container-sign-in">
-            <label class="title-sign-in">Sign In</label>
+            <label class="title-sign-in">{{'Sign In' | translate}}</label>
             <div class="sign-in-other">
                 <p-chip label="GitHub" icon="pi pi-github" />
                 <p-chip label="Facebook" icon="pi pi-facebook" />
-                <p-chip label="Google" icon="pi pi-google" (click)="SignInGoogle()"/>
+                <p-chip label="Google" icon="pi pi-google" (click)="SignInGoogle()" />
             </div>
             <div class="container-form-sign-in">
                 <form (submit)="SignIn()" [formGroup]="myForm" autocomplete="off">

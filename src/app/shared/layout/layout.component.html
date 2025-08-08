@@ -4,25 +4,53 @@
             <ng-container *ngIf="item.route; else urlRef">
                 <a [routerLink]="item.route" class="p-menubar-item-link">
                     <span [class]="item.icon"></span>
-                    <span class="ml-2">{{ item.label }}</span>
+                    <span class="ml-2">{{ item.label | translate }}</span>
                 </a>
             </ng-container>
             <ng-template #urlRef>
                 <a [routerLink]="item.route" class="p-menubar-item-link">
                     <span [class]="item.icon"></span>
-                    <span class="ml-2">{{ item.label }}</span>
+                    <span class="ml-2">{{ item.label |translate }}</span>
                 </a>
             </ng-template>
             <ng-template #noLink>
                 <div class="p-menubar-item-link">
                     <span [class]="item.icon"></span>
-                    <span class="ml-2">{{ item.label }}</span>
+                    <span class="ml-2">{{ item.label | translate }}</span>
                     <span class="pi pi-fw pi-angle-down ml-2"></span>
                 </div>
             </ng-template>
         </ng-template>
+        <ng-template #end>
+            <div class="config">
+                <input type="text" pInputText placeholder="{{'Search' | translate}}" class="w-36" />
+                <i class="pi pi-cog" (click)="changedConfig()"></i>
+            </div>
+        </ng-template>
     </p-menubar>
 </div>
+
+<p-drawer header="{{'Configuration' | translate}}" [(visible)]="configDrawer" position="right">
+    <div class="config-lg">
+        <label>{{'Language' | translate}}</label>
+        <p-select [options]="languages" optionLabel="name" [optionLabel]="" optionValue="code"
+            [(ngModel)]="languageSelected" (onChange)="selectedLanguage($event)">
+            <ng-template let-language pTemplate="selectedItem">
+                <div class="container-countries">
+                    <img class="img-countries" [src]="language.image" />
+                    <div>{{ language.name | translate }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-language pTemplate="item">
+                <div class="container-countries">
+                    <img class="img-countries" [src]="language.image" />
+                    <div>{{ language.name | translate }}</div>
+                </div>
+            </ng-template>
+        </p-select>
+    </div>
+</p-drawer>
+
 <div class="container">
     <router-outlet></router-outlet>
 </div>

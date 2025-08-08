@@ -1,7 +1,7 @@
 <div class="container">
     <div class="container-header">
-        <label for="title">Bank Accounts</label>
-        <p-button label="Create" icon="pi pi-plus" [rounded]="true" severity="success"
+        <label for="title">{{'My transactions' | translate}}</label>
+        <p-button label="{{'Create' | translate}}" icon="pi pi-plus" [rounded]="true" severity="success"
             (onClick)="createTransaction()" />
     </div>
     <div class="card">
@@ -9,17 +9,18 @@
             <ng-template #caption>
                 <p-iconfield>
                     <p-inputicon styleClass="pi pi-search" />
-                    <input type="text" pInputText [formControl]="searchControl" placeholder="Search" pSize="small" />
+                    <input type="text" pInputText [formControl]="searchControl" placeholder="{{'Search' | translate}}"
+                        pSize="small" />
                 </p-iconfield>
             </ng-template>
             <ng-template #header class="table-header">
                 <tr>
-                    <th>Bank Origin</th>
-                    <th>Bank Destination</th>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th>Amount</th>
-                    <th>Date</th>
+                    <th>{{'Origin Bank' | translate}}</th>
+                    <th>{{'Destination Bank' | translate}}</th>
+                    <th>{{'Category' | translate}}</th>
+                    <th>{{'Description' | translate}}</th>
+                    <th>{{'Amount' | translate}}</th>
+                    <th>{{'Date' | translate}}</th>
                 </tr>
             </ng-template>
             <ng-template #body let-transaction>

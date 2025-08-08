@@ -15,10 +15,12 @@ import { PaginatorModule } from 'primeng/paginator';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounce, debounceTime } from 'rxjs';
 import { ToastService } from '../../utils/service/toast.service';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-category-list',
-  imports: [TableModule, CommonModule, IconField, InputIcon, InputTextModule, ButtonModule, DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule],
+  imports: [TableModule, CommonModule, IconField, InputIcon, InputTextModule, ButtonModule,
+    DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',
   providers: [DialogService, DynamicDialogRef]
@@ -29,6 +31,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   private _dynamicDialogRef = inject(DynamicDialogRef);
   private _categoryService = inject(CategoryService);
   private readonly _toastService = inject(ToastService);
+  private _translateService = inject(TranslateService);
 
   public categories: CategoryPagination[] = [];
   public items: MenuItem[] = [];
@@ -50,12 +53,14 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   }
 
   openToggle(menu: Menu, event: any, id: number) {
+    const labelText = this._translateService.instant('Options');
+    const labelItemEdit = this._translateService.instant('Edit');
     this.items = [
       {
-        label: 'Options',
+        label: labelText,
         items: [
           {
-            label: 'Edit',
+            label: labelItemEdit,
             icon: 'pi pi-pen-to-square',
             command: () => {
               this.updateCategory(id);
@@ -86,8 +91,9 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   }
 
   createCategory() {
+    const headerText = this._translateService.instant('Create Category');
     this._dynamicDialogRef = this._dialogService.open(CategoryFormComponent, {
-      header: 'Create Category',
+      header: headerText,
       dismissableMask: true,
       width: '25%',
       contentStyle: { overflow: 'auto' },
@@ -110,8 +116,9 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   }
 
   updateCategory(id: number) {
+    const headerText = this._translateService.instant('Update Category');
     this._dynamicDialogRef = this._dialogService.open(CategoryFormComponent, {
-      header: 'Create Category',
+      header: headerText,
       dismissableMask: true,
       width: '25%',
       contentStyle: { overflow: 'auto' },

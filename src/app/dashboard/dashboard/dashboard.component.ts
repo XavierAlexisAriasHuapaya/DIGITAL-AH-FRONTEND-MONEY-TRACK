@@ -1,11 +1,12 @@
 import { CurrencyPipe, isPlatformBrowser } from '@angular/common';
-import { Component, effect, inject, OnInit, PLATFORM_ID } from '@angular/core'; 1
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { DashboardService } from '../service/dashboard.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ChartModule, CurrencyPipe],
+  imports: [ChartModule, CurrencyPipe, TranslatePipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -30,7 +31,7 @@ export class DashboardComponent implements OnInit {
   optionsIncome: any;
   optionsExpense: any;
   optionsMonthMoney: any;
-  
+
   ngOnInit() {
     this.initChart();
   }

@@ -2,19 +2,19 @@
     <div class="inc-exp-container">
         <div class="inc-exp-balance">
             <div class="title">
-                Total Income
+                {{'Total Income' | translate}}
             </div>
             <p class="amount">{{ totalIncome | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
         <div class="inc-exp-balance">
             <div class="title">
-                Total Expenses
+                {{'Total Expense' | translate}}
             </div>
             <p class="amount">{{ totalExpense | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
         <div class="inc-exp-balance">
             <div class="title">
-                General Balance
+                {{'General Balance' | translate}}
             </div>
             <p class="amount">{{ generalBalance | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
@@ -22,19 +22,19 @@
     <div class="inc-exp-container">
         <div class="inc-exp-balance">
             <div class="title">
-                Monthly Income
+                {{'Monthly Income' | translate}}
             </div>
             <p class="amount">{{ monthlyIncome | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
         <div class="inc-exp-balance">
             <div class="title">
-                Monthly Expenses
+                {{'Monthly Expense' | translate}}
             </div>
             <p class="amount">{{ monthlyExpense | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
         <div class="inc-exp-balance">
             <div class="title">
-                Monthly Balance
+                {{'Monthly Balance' | translate}}
             </div>
             <p class="amount">{{ monthlyBalance | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
         </div>
@@ -44,7 +44,7 @@
 
 <div class="container-chart">
     <div class="title">
-        <p>Annual Income and Expense Summary</p>
+        <p>{{'Annual Income and Expense Summary' | translate}}</p>
     </div>
     <div class="container-chart-element-month">
         <p-chart type="bar" [data]="dataMonth" [options]="optionsMonth"></p-chart>
@@ -55,7 +55,7 @@
     <div class="container-chart-element">
         <div class="top">
             <div class="title">
-                <p>Top 5 Income Categories</p>
+                <p>{{'Top 5 Income Categories' | translate}}</p>
             </div>
         </div>
         <p-chart type="bar" [data]="dataIncome" [options]="optionsIncome"></p-chart>
@@ -63,7 +63,7 @@
     <div class="container-chart-element">
         <div class="top">
             <div class="title">
-                <p>Top 5 Expense Categories</p>
+                <p>{{'Top 5 Expense Categories' | translate}}</p>
             </div>
         </div>
         <p-chart type="doughnut" [data]="dataExpense" [options]="optionsExpense"></p-chart>
@@ -72,7 +72,7 @@
 
 <div class="container-chart">
     <div class="title">
-        <p>Monthly Income and Expense Trend</p>
+        <p>{{'Monthly Income and Expense Trend' | translate}}</p>
     </div>
     <div class="container-chart-element-month">
         <p-chart type="line" [data]="dataMonthMoney" [options]="optionsMonthMoney"></p-chart>
