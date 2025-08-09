@@ -48,5 +48,19 @@
     "Destination Bank": "Banco de Destino",
     "Amount": "Cantidad",
     "Date": "Fecha",
-    "Create Transaction": "Crear Transacción"
+    "Create Transaction": "Crear Transacción",
+    "January": "Enero",
+    "February": "Febrero",
+    "March": "Marzo",
+    "April": "Abril",
+    "May": "Mayo",
+    "June": "Junio",
+    "July": "Julio",
+    "August": "Agosto",
+    "September": "Septiembre",
+    "October": "Octubre",
+    "November": "Noviembre",
+    "December": "Diciembre",
+    "Income": "Ingreso",
+    "Expense": "Gastos"
 }

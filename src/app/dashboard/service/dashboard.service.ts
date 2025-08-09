@@ -7,6 +7,7 @@ import { TransactionBar } from '../../transaction/interface/transaction-bar.inte
 import { ChartBarData } from '../interface/chart-bar.interface';
 import { TransactionIncomeExpense } from '../../transaction/interface/transaction-income-expense.interface';
 import { AuthService } from '../../authentication/service/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class DashboardService {
   private readonly _endPoint = environments.endPoint;
   private _httpClient = inject(HttpClient);
   private _authService = inject(AuthService);
+  private _translateService = inject(TranslateService);
 
   getBalanceByUserId(): Observable<TransactionBalanceInterface> {
     const headers = this._authService.getHeaderToken();
@@ -44,7 +46,7 @@ export class DashboardService {
       }),
       map((data) => {
         const items = Array.isArray(data) ? data : [data];
-        let labels = items.map((item) => item.month.trim());
+        let labels = items.map((item) => this._translateService.instant(item.month.trim()));
         labels = [...new Set(labels)];
 
         let dataIncomeMonth = items.map((item) => item.income);
@@ -128,11 +130,13 @@ export class DashboardService {
         const backgroundColor = this.getUniquePrimaryColors(0.7, items.length);
         const borderColor = backgroundColor;
 
+        const typeFormatted = type.charAt(0) + type.slice(1).toLowerCase();
+
         const chart: ChartBarData = {
           labels: labels,
           datasets: [
             {
-              label: type,
+              label: this._translateService.instant(typeFormatted),
               backgroundColor: backgroundColor,
               borderColor: borderColor,
               data: amount
@@ -157,7 +161,7 @@ export class DashboardService {
       }),
       map((data) => {
         const items = Array.isArray(data) ? data : [data];
-        let labels = items.map((item) => item.month.trim());
+        let labels = items.map((item) => this._translateService.instant(item.month.trim()));
         labels = [...new Set(labels)];
 
         let dataIncomeMonth = items.map((item) => item.income);
@@ -182,7 +186,7 @@ export class DashboardService {
           labels: labels,
           datasets: [
             {
-              label: 'Income',
+              label: this._translateService.instant('Income'),
               backgroundColor: backgroundIncome,
               fill: false,
               borderColor: borderColorIncome,
@@ -191,7 +195,7 @@ export class DashboardService {
               data: dataIncomeMonth
             },
             {
-              label: 'Expense',
+              label: this._translateService.instant('Expense'),
               backgroundColor: backgroundExpense,
               fill: false,
               borderColor: borderColorExpense,

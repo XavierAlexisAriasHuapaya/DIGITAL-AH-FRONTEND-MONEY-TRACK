@@ -40,8 +40,8 @@ export class DashboardComponent implements OnInit {
     if (isPlatformBrowser(this._platformId)) {
       this.getBalanceByUserId();
       this.getTransactionBarByUserId();
-      this.getTransactionBarIncomeExpenseByUserIdAndType('INBOUND');
-      this.getTransactionBarIncomeExpenseByUserIdAndType('OUTBOUND');
+      this.getTransactionBarIncomeExpenseByUserIdAndType('INCOME');
+      this.getTransactionBarIncomeExpenseByUserIdAndType('EXPENSE');
       this.getTransactionLineByUserId();
     }
   }
@@ -76,7 +76,7 @@ export class DashboardComponent implements OnInit {
   private getTransactionBarIncomeExpenseByUserIdAndType(type: string) {
     this._dashboardService.getTransactionBarIncomeExpenseByUserIdAndType(type).subscribe({
       next: (response) => {
-        if (type.includes('INBOUND')) {
+        if (type.includes('INCOME')) {
           this.dataIncome = response;
           this.optionsIncome = {
             responsive: true,
