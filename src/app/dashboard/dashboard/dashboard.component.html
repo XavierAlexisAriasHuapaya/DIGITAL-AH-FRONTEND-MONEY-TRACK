@@ -4,19 +4,22 @@
             <div class="title">
                 {{'Total Income' | translate}}
             </div>
-            <p class="amount">{{ totalIncome | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ totalIncome | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
         </div>
         <div class="inc-exp-balance">
             <div class="title">
                 {{'Total Expense' | translate}}
             </div>
-            <p class="amount">{{ totalExpense | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ totalExpense | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
         </div>
         <div class="inc-exp-balance">
             <div class="title">
                 {{'General Balance' | translate}}
             </div>
-            <p class="amount">{{ generalBalance | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ generalBalance | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
         </div>
     </div>
     <div class="inc-exp-container">
@@ -24,19 +27,22 @@
             <div class="title">
                 {{'Monthly Income' | translate}}
             </div>
-            <p class="amount">{{ monthlyIncome | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ monthlyIncome | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
         </div>
         <div class="inc-exp-balance">
             <div class="title">
                 {{'Monthly Expense' | translate}}
             </div>
-            <p class="amount">{{ monthlyExpense | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ monthlyExpense | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
         </div>
         <div class="inc-exp-balance">
             <div class="title">
                 {{'Monthly Balance' | translate}}
             </div>
-            <p class="amount">{{ monthlyBalance | currency:'PEN':'symbol':'1.2-2':'es-PE' }}</p>
+            <p class="amount">{{ monthlyBalance | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
         </div>
     </div>
 </div>

@@ -15,6 +15,7 @@ import { TransactionPagination } from '../interface/transaction-pagination.inter
 import { TransactionService } from '../service/transaction.service';
 import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { AuthService } from '../../authentication/service/auth.service';
 
 @Component({
   selector: 'app-transaction-list',
@@ -33,6 +34,7 @@ export class TransactionListComponent implements OnInit {
 
   public transactionData: TransactionPagination[] = [];
   public items: MenuItem[] = [];
+  public authService = inject(AuthService);
 
   public page: number = 0;
   public pageSize: number = 5;

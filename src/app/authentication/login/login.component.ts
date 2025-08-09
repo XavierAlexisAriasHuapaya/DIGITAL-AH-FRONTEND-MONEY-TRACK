@@ -47,7 +47,6 @@ export class LoginComponent {
     };
     this._authService.login(request).subscribe({
       error: (error) => {
-        console.log(error);
         this._toastService.showToast('error', error.message, 'bottom-center');
       }
     })

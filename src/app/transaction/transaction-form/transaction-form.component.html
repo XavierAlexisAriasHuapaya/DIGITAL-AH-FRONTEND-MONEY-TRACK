@@ -72,7 +72,8 @@
             <div class="group">
                 <p-floatlabel variant="on">
                     <p-inputnumber inputId="on_amount" autocomplete="off" size="small" formControlName="amount"
-                        mode="currency" currency="PEN" [minFractionDigits]="2" />
+                        mode="currency" [currency]="authService.currentCurrency()?.code"
+                        [locale]="authService.currentCurrency()?.locale" [minFractionDigits]="2" />
                     <label for="on_amount">{{'Amount' | translate}}</label>
                 </p-floatlabel>
                 @if ( formUtils.isValidField( myForm, 'amount') ) {

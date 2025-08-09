@@ -43,10 +43,11 @@ p-select {
     width: 100%;
 }
 
-.config-lg {
+.configs {
     display: flex;
     flex-direction: column;
     row-gap: 0.2rem;
+    margin-bottom: 1rem;
 }
 
 label {

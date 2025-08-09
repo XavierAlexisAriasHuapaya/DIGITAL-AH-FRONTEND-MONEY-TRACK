@@ -16,6 +16,8 @@ import { LanguageInterface } from '../../interface/language.interface';
 import { UserSettingService } from '../../user/service/user-setting.service';
 import { UserSettingUpdate } from '../../user/interface/user-setting-update.interface';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { CurrencyInterface } from '../../interface/currency.interface';
+import { CurrencyService } from '../../service/currency.service';
 
 @Component({
   selector: 'app-layout',
@@ -32,6 +34,10 @@ export class LayoutComponent implements OnInit {
   public languageSelected = '';
   public languageLabelSelected = '';
 
+  public currency: CurrencyInterface[] = [];
+  public currencySelected = '';
+  public currencyLabelSelected = '';
+
   private _authService = inject(AuthService);
   private _dialogService = inject(DialogService);
   private _dynamicDialogRef = inject(DynamicDialogRef);
@@ -39,18 +45,22 @@ export class LayoutComponent implements OnInit {
   private _languageService = inject(LanguageService);
   private _userSettingService = inject(UserSettingService);
   private _translateService = inject(TranslateService);
+  private _currencyService = inject(CurrencyService);
 
   items: MenuItem[] | undefined;
+
   ngOnInit() {
     this.getAllLanguages();
+    this.getAllCurrency();
     this.loadMenus();
     this.languageSelected = this._authService.currentLanguage();
+    this.currencySelected = this._authService.currentCurrency()?.code ?? '';
   }
 
   selectedLanguage(event: any) {
     this._authService.setLanguage(event.value);
     const setting: UserSettingUpdate = {
-      id: 7,
+      id: this._authService.currentUserSettingId(),
       currency: '',
       language: event.value,
       notifications: false,
@@ -62,8 +72,27 @@ export class LayoutComponent implements OnInit {
     });
   }
 
+  selectedCurrency(event: any) {
+    this._authService.setCurrency(event.value);
+    const setting: UserSettingUpdate = {
+      id: this._authService.currentUserSettingId(),
+      currency: event.value,
+      language: '',
+      notifications: false,
+      theme: 'dark',
+    };
+    this._userSettingService.updateCurrency(setting).subscribe({
+      next: (response) => {
+      }
+    });
+  }
+
   getAllLanguages() {
     this.languages = this._languageService.getAllLanguage();
+  }
+
+  getAllCurrency() {
+    this.currency = this._currencyService.getAllCurrency();
   }
 
   loadMenus() {

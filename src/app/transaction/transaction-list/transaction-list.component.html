@@ -30,7 +30,8 @@
                     </td>
                     <td>{{ transaction.category.description }}</td>
                     <td>{{ transaction.description }}</td>
-                    <td>{{ transaction.amount | currency: 'S/. ' }}</td>
+                    <td>{{ transaction.amount | currency: authService.currentCurrency()?.code: 'symbol':
+                        authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</td>
                     <td>{{ transaction.date | date: 'dd/MM/yyyy' }}</td>
                     <td>
                         <p-menu #menu [model]="items" [id]="transaction.id" [popup]="true" [appendTo]="'body'" />

@@ -29,8 +29,6 @@ export class UserService {
   }
 
   findById(): Observable<UserFindOne> {
-    console.log(this._authService.currentUsername());
-    console.log(this._authService.currentUserId());
     const headers = this._authService.getHeaderToken();
     const url = `${this._endPoint}/user/${this._authService.currentUserId()}`;
     return this._httpClient.get<UserFindOne>(url, { headers }).pipe(

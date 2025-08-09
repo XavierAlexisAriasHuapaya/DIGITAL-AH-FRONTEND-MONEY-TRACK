@@ -36,7 +36,7 @@ export class TransactionFormComponent implements OnInit {
   private _formBuilder = inject(FormBuilder);
   private _categoryService = inject(CategoryService);
   private _bankAccountService = inject(BankAccountService);
-  private _authService = inject(AuthService);
+  public authService = inject(AuthService);
 
   public categoriesData: CategoryFindAll[] = [];
   public bankAccountOriginData: BankAccountFindAll[] = [];
@@ -49,7 +49,7 @@ export class TransactionFormComponent implements OnInit {
 
   public myForm = this._formBuilder.group({
     user: this._formBuilder.group({
-      id: [this._authService.currentUserId(), [Validators.required]]
+      id: [this.authService.currentUserId(), [Validators.required]]
     }),
     category: this._formBuilder.group({
       id: [null, [Validators.required, Validators.min(1)]]

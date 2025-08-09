@@ -3,6 +3,7 @@ import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { DashboardService } from '../service/dashboard.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { AuthService } from '../../authentication/service/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +14,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class DashboardComponent implements OnInit {
 
   private readonly _dashboardService = inject(DashboardService);
+  public authService = inject(AuthService);
   private _platformId = inject(PLATFORM_ID);
 
   public totalIncome: number = 0;

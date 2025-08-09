@@ -8,6 +8,8 @@ import { AuthenticationStatus } from '../enum/authentication-status.enum';
 import { jwtDecode } from "jwt-decode";
 import { UserValidateRequest } from '../interface/user-validate-request.interface';
 import { UserValidateResponse } from '../interface/user-validate-response.interface';
+import { CurrencyService } from '../../service/currency.service';
+import { CurrencyFormat } from '../../interface/currency.format';
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +23,17 @@ export class AuthService {
   private _currentUserId = signal<number | 0>(0);
   private _currentAuthStatus = signal<AuthenticationStatus>(AuthenticationStatus.checking);
   private _currentLanguage = signal<string | ''>('');
+  private _currentCurrency = signal<CurrencyFormat | null>(null);
+  private _currencyService = inject(CurrencyService);
+  private _currentUserSettingId = signal<number>(0);
 
   public currentUsername = computed(() => this._currentUsername());
   public currentUserId = computed(() => this._currentUserId());
   public currentAuthStatus = computed(() => this._currentAuthStatus());
   public currentLanguage = computed(() => this._currentLanguage());
+  public currentCurrency = computed(() => this._currentCurrency());
+  public currentUserSettingId = computed(() => this._currentUserSettingId());
+
 
   constructor() {
     this.checkAuthStatus().subscribe();
@@ -41,6 +49,11 @@ export class AuthService {
         throwError(() => error.error)
       )
     )
+  }
+
+  setCurrency(currency: string) {
+    this._currentCurrency.set(this.generateCurrency(currency));
+    localStorage.setItem('currency', currency);
   }
 
   setLanguage(language: string) {
@@ -59,7 +72,9 @@ export class AuthService {
     this._currentUsername.set('');
     this._currentUserId.set(0);
     this._currentLanguage.set('en');
+    this._currentCurrency.set(null);
     this._currentAuthStatus.set(AuthenticationStatus.notAuthenticated);
+    this._currentUserSettingId.set(0);
   }
 
   checkAuthStatus(): Observable<boolean> {
@@ -95,19 +110,41 @@ export class AuthService {
     )
   }
 
+  public generateCurrency(currency: string): CurrencyFormat {
+    const currencyData = this._currencyService.getAllCurrency().find(item => item.code === currency);
+    let currecyFormat: CurrencyFormat = {
+      code: currencyData?.code ?? '',
+      symbol: 'symbol',
+      digits: '1.2-2',
+      locale: currencyData?.locale ?? ''
+    };
+    return currecyFormat;
+  }
+
   private setAuthentication(response: UserAuthenticationResponse): boolean {
     const subject = this.decodeToken(response.jwt).sub ?? '';
     const userId = this.decodeToken(response.jwt).userId ?? 0;
     const language = this.decodeToken(response.jwt).language ?? 'en';
+    const currency = this.decodeToken(response.jwt).currency ?? '';
+    const userSettingId = this.decodeToken(response.jwt).userSettingId ?? '';
+
     this._currentUsername.set(subject);
     this._currentUserId.set(userId);
     this._currentAuthStatus.set(AuthenticationStatus.authenticated);
+    this._currentUserSettingId.set(userSettingId);
 
     localStorage.setItem('token', response.jwt);
+
     if (!localStorage.getItem('language')) {
       localStorage.setItem('language', language);
     }
     this._currentLanguage.set(localStorage.getItem('language')?.toString() ?? 'en');
+
+    if (!localStorage.getItem('currency')) {
+      localStorage.setItem('currency', currency);
+    }
+    this._currentCurrency.set(this.generateCurrency(currency));
+
     return true;
   }
 
