@@ -1,12 +1,14 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { LanguageInterface } from '../interface/language.interface';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from '../authentication/service/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LanguageService {
 
+  private _authService = inject(AuthService);
   private _translateService = inject(TranslateService);
   private _currentLanguage = signal<string | ''>('en');
   private _languages: LanguageInterface[] = [
@@ -27,7 +29,7 @@ export class LanguageService {
 
   constructor() {
     this._translateService.addLangs(['en', 'es']);
-    this._translateService.use('es');
+    this._translateService.use(this._authService.currentLanguage());
   }
 
   getAllLanguage() {
