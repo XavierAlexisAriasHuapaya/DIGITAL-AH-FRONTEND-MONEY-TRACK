@@ -1,0 +1,36 @@
+<p-drawer header="{{'Configuration' | translate}}" [(visible)]="OpenDrawer" position="right" (onHide)="onCloseDrawer()">
+    <div class="configs">
+        <label>{{'Language' | translate}}</label>
+        <p-select [options]="languages" optionLabel="name" optionValue="code" [(ngModel)]="languageSelected"
+            (onChange)="selectedLanguage($event)">
+            <ng-template let-language pTemplate="selectedItem">
+                <div class="container-countries">
+                    <img class="img-countries" [src]="language.image" />
+                    <div>{{ language.name | translate }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-language pTemplate="item">
+                <div class="container-countries">
+                    <img class="img-countries" [src]="language.image" />
+                    <div>{{ language.name | translate }}</div>
+                </div>
+            </ng-template>
+        </p-select>
+    </div>
+    <div class="configs">
+        <label>{{'Currency' | translate}}</label>
+        <p-select [options]="currency" optionLabel="country" optionValue="code" [(ngModel)]="currencySelected"
+            (onChange)="selectedCurrency($event)">
+            <ng-template let-currency pTemplate="selectedItem">
+                <div class="container-countries">
+                    <div>{{ currency.currency | translate }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-currency pTemplate="item">
+                <div class="container-countries">
+                    <div>{{ currency.currency | translate }}</div>
+                </div>
+            </ng-template>
+        </p-select>
+    </div>
+</p-drawer>

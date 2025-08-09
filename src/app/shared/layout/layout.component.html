@@ -24,13 +24,15 @@
         <ng-template #end>
             <div class="config">
                 <input type="text" pInputText placeholder="{{'Search' | translate}}" class="w-36" />
-                <i class="pi pi-cog" (click)="changedConfig()"></i>
+                <i class="pi pi-cog" (click)="toggleDrawer()"></i>
             </div>
         </ng-template>
     </p-menubar>
 </div>
 
-<p-drawer header="{{'Configuration' | translate}}" [(visible)]="configDrawer" position="right">
+<app-drawer [OpenDrawer]="openDrawer" (closeDrawer)="openDrawer = $event"></app-drawer>
+
+<!-- <p-drawer header="{{'Configuration' | translate}}" [(visible)]="configDrawer" position="right">
     <div class="configs">
         <label>{{'Language' | translate}}</label>
         <p-select [options]="languages" optionLabel="name" optionValue="code" [(ngModel)]="languageSelected"
@@ -65,7 +67,7 @@
             </ng-template>
         </p-select>
     </div>
-</p-drawer>
+</p-drawer> -->
 
 <div class="container">
     <router-outlet></router-outlet>

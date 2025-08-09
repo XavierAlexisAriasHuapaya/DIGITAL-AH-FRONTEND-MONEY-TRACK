@@ -10,6 +10,7 @@ import { UserValidateRequest } from '../interface/user-validate-request.interfac
 import { UserValidateResponse } from '../interface/user-validate-response.interface';
 import { CurrencyService } from '../../service/currency.service';
 import { CurrencyFormat } from '../../interface/currency.format';
+import { formatCurrency } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -125,7 +126,7 @@ export class AuthService {
     const subject = this.decodeToken(response.jwt).sub ?? '';
     const userId = this.decodeToken(response.jwt).userId ?? 0;
     const language = this.decodeToken(response.jwt).language ?? 'en';
-    const currency = this.decodeToken(response.jwt).currency ?? '';
+    let currency = this.decodeToken(response.jwt).currency ?? '';
     const userSettingId = this.decodeToken(response.jwt).userSettingId ?? '';
 
     this._currentUsername.set(subject);
@@ -142,6 +143,8 @@ export class AuthService {
 
     if (!localStorage.getItem('currency')) {
       localStorage.setItem('currency', currency);
+    } else {
+      currency = localStorage.getItem('currency');
     }
     this._currentCurrency.set(this.generateCurrency(currency));
 

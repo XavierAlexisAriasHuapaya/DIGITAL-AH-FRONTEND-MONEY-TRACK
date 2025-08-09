@@ -18,18 +18,19 @@ import { UserSettingUpdate } from '../../user/interface/user-setting-update.inte
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CurrencyInterface } from '../../interface/currency.interface';
 import { CurrencyService } from '../../service/currency.service';
+import { DrawerComponent } from "./drawer/drawer.component";
 
 @Component({
   selector: 'app-layout',
   imports: [Menubar, CommonModule, RouterOutlet, RouterLink, DynamicDialogModule, InputTextModule,
-    DrawerModule, SelectModule, FormsModule, TranslatePipe],
+    DrawerModule, SelectModule, FormsModule, TranslatePipe, DrawerComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css',
   providers: [DialogService, DynamicDialogRef]
 })
 export class LayoutComponent implements OnInit {
 
-  public configDrawer = false;
+  public openDrawer = false;
   public languages: LanguageInterface[] = [];
   public languageSelected = '';
   public languageLabelSelected = '';
@@ -55,6 +56,10 @@ export class LayoutComponent implements OnInit {
     this.loadMenus();
     this.languageSelected = this._authService.currentLanguage();
     this.currencySelected = this._authService.currentCurrency()?.code ?? '';
+  }
+
+  toggleDrawer() {
+    this.openDrawer = !this.openDrawer;
   }
 
   selectedLanguage(event: any) {
@@ -170,9 +175,5 @@ export class LayoutComponent implements OnInit {
         }
       }
     })
-  }
-
-  changedConfig() {
-    this.configDrawer = !this.configDrawer;
   }
 }
