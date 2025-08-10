@@ -20,6 +20,7 @@
                 </tr>
             </ng-template>
             <ng-template #body let-bankAccount>
+                @if (!loading()) {
                 <tr>
                     <td>{{ bankAccount.typeAccount }}</td>
                     <td>{{ bankAccount.name }}</td>
@@ -28,6 +29,13 @@
                         <p-button (click)="openToggle(menu, $event, bankAccount.id)" icon="pi pi-ellipsis-v" />
                     </td>
                 </tr>
+                } @else {
+                <tr>
+                    <td colspan="3">
+                        <app-row-table-skeleton [columns]="1" [rows]="1"></app-row-table-skeleton>
+                    </td>
+                </tr>
+                }
             </ng-template>
         </p-table>
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
@@ -13,14 +13,15 @@ import { CategoryService } from '../service/category.service';
 import { CategoryPagination } from '../interface/category-pagination.interface';
 import { PaginatorModule } from 'primeng/paginator';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounce, debounceTime } from 'rxjs';
+import { debounce, debounceTime, finalize } from 'rxjs';
 import { ToastService } from '../../utils/service/toast.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { RowTableSkeletonComponent } from '../../shared/skeleton/row-table-skeleton/row-table-skeleton.component';
 
 @Component({
   selector: 'app-category-list',
   imports: [TableModule, CommonModule, IconField, InputIcon, InputTextModule, ButtonModule,
-    DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule, TranslatePipe],
+    DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule, TranslatePipe, RowTableSkeletonComponent],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',
   providers: [DialogService, DynamicDialogRef]
@@ -40,8 +41,10 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   public pageSize: number = 5;
   public totalElements: number = 0;
   public searchControl = new FormControl('');
+  public loading = signal<boolean>(true);
 
   ngOnInit() {
+    this.loading.set(true);
     this.paginationCategories();
     this.searchControl.valueChanges
       .pipe(
@@ -73,15 +76,19 @@ export class CategoryListComponent implements OnInit, OnDestroy {
   }
 
   paginationCategories(search?: string) {
-    this._categoryService.paginationCategories(this.page, this.pageSize, search).subscribe({
-      next: (response) => {
-        this.totalElements = response.totalElements;
-        this.categories = response.content;
-      },
-      error: (error) => {
-        this._toastService.showToast('error', error.message, 'bottom-center');
-      }
-    })
+    this.loading.set(true);
+    this._categoryService.paginationCategories(this.page, this.pageSize, search)
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: (response) => {
+          this.totalElements = response.totalElements;
+          this.categories = response.content;
+        },
+        error: (error) => {
+          this.loading.set(true);
+          this._toastService.showToast('error', error.message, 'bottom-center');
+        }
+      })
   }
 
   onPagination(event: any) {

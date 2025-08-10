@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -12,15 +12,16 @@ import { TableModule } from 'primeng/table';
 import { ToastService } from '../../utils/service/toast.service';
 import { BankAccountPagination } from '../interface/bank-account-pagination.interface';
 import { MenuItem } from 'primeng/api';
-import { debounceTime } from 'rxjs';
+import { debounceTime, finalize } from 'rxjs';
 import { BankAccountService } from '../service/bank-account.service';
 import { BankFormComponent } from '../bank-form/bank-form.component';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { RowTableSkeletonComponent } from '../../shared/skeleton/row-table-skeleton/row-table-skeleton.component';
 
 @Component({
   selector: 'app-bank-list',
   imports: [TableModule, CommonModule, IconField, InputIcon, InputTextModule,
-    ButtonModule, DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule, TranslatePipe],
+    ButtonModule, DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule, TranslatePipe, RowTableSkeletonComponent],
   templateUrl: './bank-list.component.html',
   styleUrl: './bank-list.component.css',
   providers: [DialogService, DynamicDialogRef]
@@ -40,6 +41,7 @@ export class BankListComponent implements OnInit, OnDestroy {
   public pageSize: number = 5;
   public totalElements: number = 0;
   public searchControl = new FormControl('');
+  public loading = signal<boolean>(true);
 
   ngOnDestroy(): void {
     if (this._dynamicDialogRef) {
@@ -47,6 +49,7 @@ export class BankListComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit(): void {
+    this.loading.set(true);
     this.paginationBankAccount();
     this.searchControl.valueChanges
       .pipe(
@@ -60,20 +63,20 @@ export class BankListComponent implements OnInit, OnDestroy {
   openToggle(menu: Menu, event: any, id: number) {
     const label = this._translateService.instant('Options');
     const itemEdit = this._translateService.instant('Edit');
-      this.items = [
-        {
-          label: label,
-          items: [
-            {
-              label: itemEdit,
-              icon: 'pi pi-pen-to-square',
-              command: () => {
-                this.updateBankAccount(id);
-              }
+    this.items = [
+      {
+        label: label,
+        items: [
+          {
+            label: itemEdit,
+            icon: 'pi pi-pen-to-square',
+            command: () => {
+              this.updateBankAccount(id);
             }
-          ]
-        }
-      ];
+          }
+        ]
+      }
+    ];
     menu.toggle(event);
   }
 
@@ -84,15 +87,19 @@ export class BankListComponent implements OnInit, OnDestroy {
   }
 
   paginationBankAccount(search?: string) {
-    this._bankAccountService.pagination(this.page, this.pageSize, search ?? '').subscribe({
-      next: (response) => {
-        this.bankAccounts = response.content;
-        this.totalElements = response.totalElements;
-      },
-      error: (error) => {
-        this._toastService.showToast('Error', error.message, 'bottom-center');
-      }
-    })
+    this.loading.set(true);
+    this._bankAccountService.pagination(this.page, this.pageSize, search ?? '')
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: (response) => {
+          this.bankAccounts = response.content;
+          this.totalElements = response.totalElements;
+        },
+        error: (error) => {
+          this.loading.set(true);
+          this._toastService.showToast('Error', error.message, 'bottom-center');
+        }
+      })
   }
 
   createBankAccount() {

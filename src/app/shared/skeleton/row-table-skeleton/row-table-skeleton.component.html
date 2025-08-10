@@ -1,0 +1,13 @@
+<table class="table-skeleton">
+    <tbody>
+        @for (row of rowsArray; track $index) {
+        <tr>
+            @for (col of columnsArray; track $index) {
+            <td>
+                <p-skeleton width="100%" height="20px"></p-skeleton>
+            </td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>

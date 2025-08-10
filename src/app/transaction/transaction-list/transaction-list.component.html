@@ -21,9 +21,11 @@
                     <th>{{'Description' | translate}}</th>
                     <th>{{'Amount' | translate}}</th>
                     <th>{{'Date' | translate}}</th>
+                    <th></th>
                 </tr>
             </ng-template>
             <ng-template #body let-transaction>
+                @if (!loading()) {
                 <tr>
                     <td>{{ transaction.bankAccountOrigin.name }}</td>
                     <td>{{ transaction.bankAccountDestination == null ? '-' : transaction.bankAccountDestination.name }}
@@ -38,6 +40,13 @@
                         <p-button (click)="openToggle(menu, $event, transaction.id)" icon="pi pi-ellipsis-v" />
                     </td>
                 </tr>
+                } @else {
+                <tr>
+                    <td colspan="7">
+                        <app-row-table-skeleton [columns]="1" [rows]="1"></app-row-table-skeleton>
+                    </td>
+                </tr>
+                }
             </ng-template>
         </p-table>
 

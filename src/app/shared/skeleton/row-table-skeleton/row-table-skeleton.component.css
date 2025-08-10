@@ -1,0 +1,8 @@
+.table-skeleton {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-skeleton td {
+  padding: 6px;
+}

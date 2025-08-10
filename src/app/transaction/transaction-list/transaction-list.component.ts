@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -10,17 +10,19 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Menu } from 'primeng/menu';
 import { PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
-import { ToastService } from '../../utils/service/toast.service';
 import { TransactionPagination } from '../interface/transaction-pagination.interface';
 import { TransactionService } from '../service/transaction.service';
 import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../authentication/service/auth.service';
+import { SkeletonModule } from 'primeng/skeleton';
+import { finalize } from 'rxjs';
+import { RowTableSkeletonComponent } from '../../shared/skeleton/row-table-skeleton/row-table-skeleton.component';
 
 @Component({
   selector: 'app-transaction-list',
   imports: [TableModule, CommonModule, IconField, InputIcon, InputTextModule,
-    ButtonModule, DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule, TranslatePipe],
+    ButtonModule, DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule, TranslatePipe, SkeletonModule, RowTableSkeletonComponent],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.css',
   providers: [DialogService, DynamicDialogRef]
@@ -40,8 +42,10 @@ export class TransactionListComponent implements OnInit {
   public pageSize: number = 5;
   public totalElements: number = 0;
   public searchControl = new FormControl('');
+  public loading = signal<boolean>(true);
 
   ngOnInit(): void {
+    this.loading.set(true);
     this.paginationTransaction();
   }
 
@@ -73,14 +77,20 @@ export class TransactionListComponent implements OnInit {
   }
 
   paginationTransaction() {
-    this._transactionService.pagination(this.page, this.pageSize, this.searchControl.value ?? '').subscribe({
-      next: (response) => {
-        this.transactionData = response.content;
-        this.totalElements = response.totalElements;
-      }
-    })
+    this.loading.set(true);
+    this._transactionService.pagination(this.page, this.pageSize, this.searchControl.value ?? '')
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: (response) => {
+          this.transactionData = response.content;
+          this.totalElements = response.totalElements;
+        },
+        error: () => {
+          this.loading.set(true);
+        }
+      })
   }
-
+ skeletonColumns = Array.from({ length: 7 });
   createTransaction() {
     const headerText = this._translateService.instant('Create Transaction');
     this._dynamicDialogRef = this._dialogService.open(TransactionFormComponent, {
