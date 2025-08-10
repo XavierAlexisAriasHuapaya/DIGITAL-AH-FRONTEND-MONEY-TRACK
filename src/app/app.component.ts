@@ -53,8 +53,9 @@ export class AppComponent implements OnInit {
   })
 
   public languageChangedEffect = effect(() => {
-    console.log(this._authService.currentLanguage());
-    this._translateService.use(this._authService.currentLanguage());
+    const langLS = localStorage.getItem('language');
+    const lang = langLS ? langLS : this._authService.currentLanguage();
+    this._translateService.use(lang);
   })
 
   public authStatusChangedEffect = effect(() => {
