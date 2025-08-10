@@ -1,16 +1,16 @@
 import { Component, computed, effect, inject, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { ToastService } from './utils/service/toast.service';
 import { ToastModule, ToastPositionType } from 'primeng/toast';
 import { AuthService } from './authentication/service/auth.service';
 import { AuthenticationStatus } from './authentication/enum/authentication-status.enum';
 import { Location } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastModule, NgxSpinnerModule],
+  imports: [RouterOutlet, ToastModule, NgxSpinnerModule, TranslatePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -27,7 +27,19 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this._translateService.addLangs(['en', 'es']);
     this._translateService.use('es');
-    this._spinnerService.show();
+    this.navigationSpinner();
+  }
+
+  private navigationSpinner() {
+    this._router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        this._spinnerService.show();
+      }
+
+      if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+        this._spinnerService.hide();
+      }
+    });
   }
 
   constructor() {
@@ -41,6 +53,7 @@ export class AppComponent implements OnInit {
   })
 
   public languageChangedEffect = effect(() => {
+    console.log(this._authService.currentLanguage());
     this._translateService.use(this._authService.currentLanguage());
   })
 
