@@ -23,7 +23,7 @@ export class AuthService {
   private _currentUsername = signal<string | ''>('');
   private _currentUserId = signal<number | 0>(0);
   private _currentAuthStatus = signal<AuthenticationStatus>(AuthenticationStatus.checking);
-  private _currentLanguage = signal<string | ''>('');
+  private _currentLanguage = signal<string | ''>('en');
   private _currentCurrency = signal<CurrencyFormat | null>(null);
   private _currencyService = inject(CurrencyService);
   private _currentUserSettingId = signal<number>(0);
