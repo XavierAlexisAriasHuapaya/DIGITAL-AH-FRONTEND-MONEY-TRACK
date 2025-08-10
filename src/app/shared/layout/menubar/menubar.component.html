@@ -1,0 +1,29 @@
+<p-menubar [model]="items">
+    <ng-template #item let-item>
+        <ng-container *ngIf="item.route; else urlRef">
+            <a [routerLink]="item.route" class="p-menubar-item-link">
+                <span [class]="item.icon"></span>
+                <span class="ml-2">{{ item.label | translate }}</span>
+            </a>
+        </ng-container>
+        <ng-template #urlRef>
+            <a [routerLink]="item.route" class="p-menubar-item-link">
+                <span [class]="item.icon"></span>
+                <span class="ml-2">{{ item.label |translate }}</span>
+            </a>
+        </ng-template>
+        <ng-template #noLink>
+            <div class="p-menubar-item-link">
+                <span [class]="item.icon"></span>
+                <span class="ml-2">{{ item.label | translate }}</span>
+                <span class="pi pi-fw pi-angle-down ml-2"></span>
+            </div>
+        </ng-template>
+    </ng-template>
+    <ng-template #end>
+        <div class="config">
+            <input type="text" pInputText placeholder="{{'Search' | translate}}" class="w-36" />
+            <i class="pi pi-cog" (click)="toggleDrawer()"></i>
+        </div>
+    </ng-template>
+</p-menubar>
