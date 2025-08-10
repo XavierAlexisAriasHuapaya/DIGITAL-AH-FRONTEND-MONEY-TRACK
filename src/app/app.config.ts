@@ -1,4 +1,4 @@
-import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -6,7 +6,7 @@ import { providePrimeNG } from 'primeng/config';
 import { ThemePrimary } from './theme-primary';
 
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { registerLocaleData } from '@angular/common';
 import { provideTranslateService } from '@ngx-translate/core';
@@ -17,6 +17,7 @@ import localeEsAR from '@angular/common/locales/es-AR';
 import localeEsCL from '@angular/common/locales/es-CL';
 import localeEsCO from '@angular/common/locales/es-CO';
 import localeEsUY from '@angular/common/locales/es-UY';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 registerLocaleData(localeEsPE, 'es-PE');
 registerLocaleData(localeEnUS, 'en-US');

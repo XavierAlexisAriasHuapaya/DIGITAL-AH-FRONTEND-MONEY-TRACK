@@ -6,10 +6,11 @@ import { AuthService } from './authentication/service/auth.service';
 import { AuthenticationStatus } from './authentication/enum/authentication-status.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastModule],
+  imports: [RouterOutlet, ToastModule, NgxSpinnerModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -21,10 +22,12 @@ export class AppComponent implements OnInit {
   public toastPosition: ToastPositionType = 'center';
   private _location = inject(Location);
   private _translateService = inject(TranslateService);
+  private _spinnerService = inject(NgxSpinnerService);
 
   ngOnInit(): void {
     this._translateService.addLangs(['en', 'es']);
     this._translateService.use('es');
+    this._spinnerService.show();
   }
 
   constructor() {
