@@ -185,6 +185,8 @@ body.dark-mode {
 
     --p-datepicker-prev-button-backgroud: red;
 
+    --p-skeleton-background: #1e1e1e;
+
     .p-button-text{
         color: white;
     }
