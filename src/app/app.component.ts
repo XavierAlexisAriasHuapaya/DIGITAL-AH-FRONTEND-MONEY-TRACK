@@ -28,6 +28,18 @@ export class AppComponent implements OnInit {
     this._translateService.addLangs(['en', 'es']);
     this._translateService.use('es');
     this.navigationSpinner();
+    // this.getTheme();
+  }
+
+  private getTheme() {
+    const theme = this._authService.currentAppearance();
+    if (theme) {
+      if (theme.includes('dark')) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+    }
   }
 
   private navigationSpinner() {
@@ -54,6 +66,10 @@ export class AppComponent implements OnInit {
 
   public languageChangedEffect = effect(() => {
     this._translateService.use(this._authService.currentLanguage());
+  })
+
+  public themeChangedEffect = effect(() => {
+    this.getTheme();
   })
 
   public authStatusChangedEffect = effect(() => {

@@ -5,7 +5,7 @@
             (onClick)="createCategory()" />
     </div>
     <div class="card">
-        <p-table [value]="categories" [rows]="page" [tableStyle]="{ 'min-width': '50rem' }" size="small">
+        <p-table class="transactions-table" [value]="categories" [rows]="page" [tableStyle]="{ 'min-width': '50rem' }" size="small">
             <ng-template #caption>
                 <p-iconfield>
                     <p-inputicon styleClass="pi pi-search" />

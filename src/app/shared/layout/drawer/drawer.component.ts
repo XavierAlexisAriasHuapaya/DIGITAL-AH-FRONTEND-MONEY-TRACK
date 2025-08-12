@@ -10,10 +10,12 @@ import { UserSettingService } from '../../../user/service/user-setting.service';
 import { LanguageService } from '../../../service/language.service';
 import { CurrencyService } from '../../../service/currency.service';
 import { FormsModule } from '@angular/forms';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { ToastService } from '../../../utils/service/toast.service';
 
 @Component({
   selector: 'app-drawer',
-  imports: [DrawerModule, SelectModule, TranslatePipe, FormsModule],
+  imports: [DrawerModule, SelectModule, TranslatePipe, FormsModule, ToggleSwitchModule],
   templateUrl: './drawer.component.html',
   styleUrl: './drawer.component.css'
 })
@@ -29,17 +31,37 @@ export class DrawerComponent implements OnInit {
   public currency: CurrencyInterface[] = [];
   public currencySelected = '';
   public currencyLabelSelected = '';
+  public darkCheck: boolean = false;
 
   private _authService = inject(AuthService);
   private _userSettingService = inject(UserSettingService);
   private _languageService = inject(LanguageService);
   private _currencyService = inject(CurrencyService);
+  private _toastService = inject(ToastService);
 
   ngOnInit(): void {
     this.getAllLanguages();
     this.getAllCurrency();
     this.languageSelected = this._authService.currentLanguage();
     this.currencySelected = this._authService.currentCurrency()?.code ?? '';
+    this.darkCheck = this._authService.currentAppearance().includes('dark') ? true : false;
+  }
+
+  toggleTheme(event: any) {
+    const theme = event.checked ? 'dark' : 'light';
+    this._authService.setAppearance(theme);
+    const setting: UserSettingUpdate = {
+      id: this._authService.currentUserSettingId(),
+      currency: '',
+      language: event.value,
+      notifications: false,
+      theme: theme,
+    };
+    this._userSettingService.updateTheme(setting).subscribe({
+      next: () => {
+        this._toastService.showToast('success', 'Settings updated', 'bottom-center');
+      }
+    });
   }
 
   selectedLanguage(event: any) {
@@ -52,7 +74,8 @@ export class DrawerComponent implements OnInit {
       theme: 'dark',
     };
     this._userSettingService.updateLanguage(setting).subscribe({
-      next: (response) => {
+      next: () => {
+        this._toastService.showToast('success', 'Settings updated', 'bottom-center');
       }
     });
   }
@@ -67,7 +90,8 @@ export class DrawerComponent implements OnInit {
       theme: 'dark',
     };
     this._userSettingService.updateCurrency(setting).subscribe({
-      next: (response) => {
+      next: () => {
+        this._toastService.showToast('success', 'Settings updated', 'bottom-center');
       }
     });
   }

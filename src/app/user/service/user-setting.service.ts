@@ -47,4 +47,18 @@ export class UserSettingService {
       )
   }
 
+  updateTheme(userSetting: UserSettingUpdate): Observable<ResponseInterface> {
+    const url = `${this._endPoint}/user-setting/user/${this._authService.currentUserId()}`;
+    const headers = this._authService.getHeaderToken();
+    return this._httpCliente.get<UserSettingFindOne>(url, { headers })
+      .pipe(
+        switchMap((response) => {
+          response.theme = userSetting.theme;
+          const url = `${this._endPoint}/user-setting`;
+          return this._httpCliente.patch<ResponseInterface>(url, response, { headers })
+        }),
+        catchError((error) => throwError(() => error))
+      )
+  }
+
 }

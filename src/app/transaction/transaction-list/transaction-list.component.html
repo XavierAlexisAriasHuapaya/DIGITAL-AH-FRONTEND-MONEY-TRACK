@@ -1,11 +1,12 @@
 <div class="container">
     <div class="container-header">
-        <label for="title">{{'My transactions' | translate}}</label>
+        <label for="title title-dark-light">{{'My transactions' | translate}}</label>
         <p-button label="{{'Create' | translate}}" icon="pi pi-plus" [rounded]="true" severity="success"
             (onClick)="createTransaction()" />
     </div>
     <div class="card">
-        <p-table [value]="transactionData" [rows]="page" [tableStyle]="{ 'min-width': '50rem' }" size="small">
+        <p-table class="transactions-table" [value]="transactionData" [rows]="page"
+            [tableStyle]="{ 'min-width': '50rem' }" size="small">
             <ng-template #caption>
                 <p-iconfield>
                     <p-inputicon styleClass="pi pi-search" />

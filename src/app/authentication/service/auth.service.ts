@@ -27,6 +27,7 @@ export class AuthService {
   private _currentCurrency = signal<CurrencyFormat | null>(null);
   private _currencyService = inject(CurrencyService);
   private _currentUserSettingId = signal<number>(0);
+  private _currentAppearance = signal<string>('light');
 
   public currentUsername = computed(() => this._currentUsername());
   public currentUserId = computed(() => this._currentUserId());
@@ -34,6 +35,7 @@ export class AuthService {
   public currentLanguage = computed(() => this._currentLanguage());
   public currentCurrency = computed(() => this._currentCurrency());
   public currentUserSettingId = computed(() => this._currentUserSettingId());
+  public currentAppearance = computed(() => this._currentAppearance());
 
 
   constructor() {
@@ -57,6 +59,11 @@ export class AuthService {
     localStorage.setItem('currency', currency);
   }
 
+  setAppearance(appearance: string) {
+    this._currentAppearance.set(appearance);
+    localStorage.setItem('theme', appearance);
+  }
+
   setLanguage(language: string) {
     this._currentLanguage.set(language);
     localStorage.setItem('language', language);
@@ -70,12 +77,15 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('language');
+    localStorage.removeItem('currency');
+    localStorage.removeItem('theme');
     this._currentUsername.set('');
     this._currentUserId.set(0);
     this._currentLanguage.set('en');
     this._currentCurrency.set(null);
     this._currentAuthStatus.set(AuthenticationStatus.notAuthenticated);
     this._currentUserSettingId.set(0);
+    this._currentAppearance.set('light');
   }
 
   checkAuthStatus(): Observable<boolean> {
@@ -128,11 +138,13 @@ export class AuthService {
     const language = this.decodeToken(response.jwt).language ?? 'en';
     let currency = this.decodeToken(response.jwt).currency ?? '';
     const userSettingId = this.decodeToken(response.jwt).userSettingId ?? '';
+    let userAppearance = this.decodeToken(response.jwt).theme ?? 'light';
 
     this._currentUsername.set(subject);
     this._currentUserId.set(userId);
     this._currentAuthStatus.set(AuthenticationStatus.authenticated);
     this._currentUserSettingId.set(userSettingId);
+    this._currentAppearance.set(userAppearance);
 
     localStorage.setItem('token', response.jwt);
 
@@ -147,6 +159,13 @@ export class AuthService {
       currency = localStorage.getItem('currency');
     }
     this._currentCurrency.set(this.generateCurrency(currency));
+
+    if (!localStorage.getItem('theme')) {
+      localStorage.setItem('theme', userAppearance);
+    } else {
+      userAppearance = localStorage.getItem('theme');
+    }
+    this._currentAppearance.set(userAppearance);
 
     return true;
   }

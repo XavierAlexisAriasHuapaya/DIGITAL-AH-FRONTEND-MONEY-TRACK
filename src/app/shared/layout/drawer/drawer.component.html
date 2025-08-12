@@ -33,4 +33,16 @@
             </ng-template>
         </p-select>
     </div>
+    <div class="configs">
+        <label>{{'Appearance' | translate}}</label>
+        <div class="appearance">
+            <div class="container-img">
+                <img src="/assets/light.png" alt="Light">
+            </div>
+            <p-toggleswitch [(ngModel)]="darkCheck" (onChange)="toggleTheme($event)" />
+            <div class="container-img">
+                <img src="/assets/dark.png" alt="Dark">
+            </div>
+        </div>
+    </div>
 </p-drawer>

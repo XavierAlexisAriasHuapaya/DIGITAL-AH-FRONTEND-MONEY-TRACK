@@ -25,6 +25,172 @@ body {
     color: blue;
 }
 
-.text-green{
+.text-green {
     color: green;
+}
+
+/* .transactions-table .p-datatable-thead>tr>th {
+    background-color: rgba(34, 197, 94, 0.89);
+    color: white;
+    font-weight: bold;
+}
+
+.transactions-table .p-datatable-tbody>tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+.transactions-table .p-datatable-tbody>tr:hover {
+    background-color: rgba(214, 248, 226, 0.89);
+} */
+
+body {
+    --p-datatable-header-sm-padding: 0rem 0rem 1.7rem;
+    --bg-color: #f4f7fa;
+    --text-color: black;
+
+    background-color: var(--bg-color);
+    color: var(--text-color);
+
+    --menubar-bg: #ffffff;
+    --menubar-text: #333333;
+    --menubar-hover-text: black;
+
+    --icon-color: #333333;
+}
+
+body.dark-mode {
+    --bg-color: black;
+    --text-color: #f0f0f0;
+
+
+    --menubar-bg: #1e1e1e;
+    --menubar-text: #999595;
+    --menubar-hover-text: black;
+    /* --menubar-text-active: red; */
+
+    --icon-color: #f0f0f0;
+
+    .container-dark-light {
+        background-color: var(--menubar-bg);
+    }
+
+    label {
+        color: white;
+    }
+
+    .card {
+        background-color: var(--menubar-bg);
+    }
+
+    .p-datatable-header {
+        background: var(--menubar-bg) !important;
+    }
+
+    .p-datatable-thead>tr>th {
+        background-color: var(--menubar-bg) !important;
+        color: white;
+        font-weight: bold;
+    }
+
+    --p-datatable-header-border-color: #e0e0e0;
+    --p-datatable-row-background: --menubar-bg;
+    --p-datatable-body-cell-border-color: #e0e0e0;
+    --p-datatable-row-color: #e0e0e0;
+    --p-paginator-background: --menubar-bg;
+    --p-paginator-nav-button-color: white;
+    --p-paginator-nav-button-selected-color: black;
+    --p-paginator-nav-button-selected-background: white;
+    --p-paginator-nav-button-hover-background: black;
+    --p-paginator-nav-button-hover-color: white;
+
+
+
+
+    --p-menubar-submenu-background:black;
+    --p-menubar-submenu-border-color: black;
+    --p-menubar-item-focus-background: white;
+
+    /* --p-menubar-item-active-background: white; */
+
+    --p-menubar-mobile-button-focus-ring-width: white;
+    --p-menubar-mobile-button-color: white;
+
+
+
+    --p-datatable-header-sm-padding: 0rem 0rem 1.7rem;
+    --p-inputtext-background: #1e1e1e;
+    --p-inputtext-color: white;
+    --p-inputtext-focus-border-color: white;
+    --p-inputtext-placeholder-color: rgb(141, 137, 137);
+    --p-inputtext-hover-border-color: white;
+
+
+
+
+    --p-drawer-background: black;
+    --p-drawer-border-color:black;
+    --p-drawer-color: white;
+
+    .container-img {
+        background-color: #ffffff18;
+    }
+
+
+
+    --p-select-background: #1e1e1e;
+    --p-select-border-color: white;
+    --p-select-color: white;
+    --p-select-focus-border-color: white;
+    --p-select-option-focus-background: #1e1e1e;
+    --p-select-option-selected-color: white;
+
+    --p-select-overlay-background: #1e1e1e;
+    --p-select-overlay-border-color: white;
+    --p-select-placeholder-color: white;
+
+    --p-select-option-selected-color:white;
+    --p-select-option-selected-focus-color: black;
+    --p-select-dropdown-color:white;
+    --p-select-option-focus-background: white;
+    --p-select-option-selected-background: #1e1e1e;
+    --p-select-option-selected-focus-background: white;
+    --p-select-option-focus-color: black;
+    --p-select-option-color: white;
+
+
+
+    --p-dialog-background: #1e1e1e;
+    --p-dialog-border-color: white;
+    --p-dialog-color: white;
+
+
+    --p-floatlabel-active-color: white;
+    --p-floatlabel-on-active-background: #1e1e1e;
+    --p-floatlabel-focus-color: white;
+
+    --p-datepicker-panel-background: #1e1e1e;
+    --p-datepicker-panel-border-color: white;
+    --p-datepicker-header-background: #1e1e1e;
+    --p-datepicker-header-border-color: white;
+
+    --p-datepicker-date-selected-background: white;
+    --p-datepicker-date-color: white;
+    --p-datepicker-date-selected-color: black;
+
+    --p-datepicker-select-year-color:white;
+    --p-datepicker-week-day-color: white;
+    --p-datepicker-select-month-color: white;
+    --p-datepicker-date-hover-background: white;
+    --p-datepicker-today-background: rgb(150, 148, 148);
+
+    --p-datepicker-prev-button-backgroud: red;
+
+    .p-button-text{
+        color: white;
+    }
+
+    .p-button-text:not(:disabled):hover{
+        color: black;
+    }
+
 }
