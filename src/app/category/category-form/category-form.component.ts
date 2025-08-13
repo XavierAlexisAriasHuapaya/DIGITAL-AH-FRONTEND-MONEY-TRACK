@@ -30,12 +30,12 @@ export class CategoryFormComponent implements OnInit {
   public id?: number;
   public typeMovement = [
     {
-      name: 'Outbound',
-      code: 'OUTBOUND'
+      name: 'Expense',
+      code: 'EXPENSE'
     },
     {
-      name: 'Inbound',
-      code: 'INBOUND'
+      name: 'Income',
+      code: 'INCOME'
     }
   ];
   public myForm = this._formBuilder.group({

@@ -25,8 +25,8 @@
                 @if (!loading()) {
                 <tr>
                     <td [ngClass]="{
-                        'cl-inbound': customer.type === 'INBOUND',
-                        'cl-outbound': customer.type === 'OUTBOUND',
+                        'cl-inbound': customer.type === 'INCOME',
+                        'cl-outbound': customer.type === 'EXPENSE',
                     }">{{ customer.type }}</td>
                     <td>{{ customer.description }}</td>
                     <td>
