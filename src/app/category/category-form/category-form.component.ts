@@ -10,7 +10,7 @@ import { CategoryCreate } from '../interface/category-create.interface';
 import { CategoryUpdate } from '../interface/category-update.interface';
 import { ToastService } from '../../utils/service/toast.service';
 import { AuthService } from '../../authentication/service/auth.service';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-category-form',
@@ -26,15 +26,16 @@ export class CategoryFormComponent implements OnInit {
   private _categoryService = inject(CategoryService);
   private _authService = inject(AuthService);
   private readonly _toastService = inject(ToastService);
+  private _translateService = inject(TranslateService);
 
   public id?: number;
   public typeMovement = [
     {
-      name: 'Expense',
+      name: this._translateService.instant('Expense'),
       code: 'EXPENSE'
     },
     {
-      name: 'Income',
+      name: this._translateService.instant('Income'),
       code: 'INCOME'
     }
   ];
