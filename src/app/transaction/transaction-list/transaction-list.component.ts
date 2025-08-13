@@ -82,6 +82,7 @@ export class TransactionListComponent implements OnInit {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (response) => {
+          console.log(response);
           this.transactionData = response.content;
           this.totalElements = response.totalElements;
         },

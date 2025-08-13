@@ -43,6 +43,16 @@ body {
     background-color: rgba(214, 248, 226, 0.89);
 } */
 
+.cl-outbound {
+    color: red;
+    font-weight: 600;
+}
+
+.cl-inbound {
+    color: blue;
+    font-weight: 600;
+}
+
 body {
     --p-datatable-header-sm-padding: 0rem 0rem 1.7rem;
     --bg-color: #f4f7fa;
@@ -187,12 +197,25 @@ body.dark-mode {
 
     --p-skeleton-background: #1e1e1e;
 
-    .p-button-text{
+    .p-button-text {
         color: white;
     }
 
-    .p-button-text:not(:disabled):hover{
+    .p-button-text:not(:disabled):hover {
         color: black;
     }
 
+    .cl-outbound {
+        color: rgb(247, 39, 39);
+        font-weight: 600;
+    }
+
+    .cl-inbound {
+        color: rgb(120, 122, 253);
+        font-weight: 600;
+    }
+
+
+
 }
+
