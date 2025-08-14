@@ -1,0 +1,30 @@
+<div class="container-chart container-dark-light">
+    <div class="container-chart-element">
+        <div class="top">
+            <div class="title">
+                <p>{{'Top 5 Income Categories' | translate}}</p>
+            </div>
+        </div>
+        @if (!loadingTransactionBarIncomeExpenseByUserIdAndType()) {
+        <p-chart type="bar" [data]="dataIncome" [options]="optionsIncome"></p-chart>
+        } @else {
+        <div class="chart-skeleton">
+            <p-skeleton width="100%" height="100%"></p-skeleton>
+        </div>
+        }
+    </div>
+    <div class="container-chart-element">
+        <div class="top">
+            <div class="title">
+                <p>{{'Top 5 Expense Categories' | translate}}</p>
+            </div>
+        </div>
+        @if (!loadingTransactionBarIncomeExpenseByUserIdAndType()) {
+        <p-chart type="doughnut" [data]="dataExpense" [options]="optionsExpense"></p-chart>
+        } @else {
+        <div class="chart-skeleton">
+            <p-skeleton width="100%" height="100%"></p-skeleton>
+        </div>
+        }
+    </div>
+</div>

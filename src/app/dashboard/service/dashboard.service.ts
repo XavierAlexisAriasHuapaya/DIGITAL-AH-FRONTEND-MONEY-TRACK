@@ -71,13 +71,13 @@ export class DashboardService {
           labels: labels,
           datasets: [
             {
-              label: 'Income',
+              label: this._translateService.instant('Income'),
               backgroundColor: backgroundIncome,
               borderColor: borderColorIncome,
               data: dataIncomeMonth
             },
             {
-              label: 'Expense',
+              label: this._translateService.instant('Expense'),
               backgroundColor: backgroundExpense,
               borderColor: borderColorExpense,
               data: dataExpenseMonth

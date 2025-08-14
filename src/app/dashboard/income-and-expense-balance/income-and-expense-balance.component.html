@@ -1,0 +1,83 @@
+<div class="container container-dark-light">
+    <div class="inc-exp-container">
+        @if (!loadingBalanceByUserId()) {
+        <div class="inc-exp-balance">
+            <div class="title">
+                {{'Total Income' | translate}}
+            </div>
+            <p class="amount">{{ totalIncome | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
+        </div>
+        } @else {
+        <p-skeleton width="10rem" height="5rem"></p-skeleton>
+        }
+
+
+        @if (!loadingBalanceByUserId()) {
+        <div class="inc-exp-balance">
+            <div class="title">
+                {{'Total Expense' | translate}}
+            </div>
+            <p class="amount">{{ totalExpense | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
+        </div>
+        } @else {
+        <p-skeleton width="10rem" height="5rem"></p-skeleton>
+        }
+
+
+        @if (!loadingBalanceByUserId()) {
+        <div class="inc-exp-balance">
+            <div class="title">
+                {{'General Balance' | translate}}
+            </div>
+            <p class="amount">{{ generalBalance | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
+        </div>
+        } @else {
+        <p-skeleton width="10rem" height="5rem"></p-skeleton>
+        }
+
+
+        @if (!loadingBalanceByUserId()) {
+        <div class="inc-exp-balance">
+            <div class="title">
+                {{'Monthly Income' | translate}}
+            </div>
+            <p class="amount">{{ monthlyIncome | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
+        </div>
+        } @else {
+        <p-skeleton width="10rem" height="5rem"></p-skeleton>
+        }
+
+
+        @if (!loadingBalanceByUserId()) {
+        <div class="inc-exp-balance">
+            <div class="title">
+                {{'Monthly Expense' | translate}}
+            </div>
+            <p class="amount">{{ monthlyExpense | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
+        </div>
+
+        } @else {
+        <p-skeleton width="10rem" height="5rem"></p-skeleton>
+        }
+
+
+
+        @if (!loadingBalanceByUserId()) {
+        <div class="inc-exp-balance">
+            <div class="title">
+                {{'Monthly Balance' | translate}}
+            </div>
+            <p class="amount">{{ monthlyBalance | currency: authService.currentCurrency()?.code: 'symbol':
+                authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</p>
+        </div>
+
+        } @else {
+        <p-skeleton width="10rem" height="5rem"></p-skeleton>
+        }
+    </div>
+</div>
