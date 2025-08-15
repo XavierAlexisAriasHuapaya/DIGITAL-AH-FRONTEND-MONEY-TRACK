@@ -56,4 +56,8 @@ export class LoginComponent {
     this._authService.loginGoogle();
   }
 
+  public SignInGitHub() {
+    this._authService.loginGitHub();
+  }
+
 }

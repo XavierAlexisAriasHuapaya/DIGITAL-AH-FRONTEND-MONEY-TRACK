@@ -74,6 +74,11 @@ export class AuthService {
     window.location.href = url;
   }
 
+  loginGitHub(): void {
+    const url = `${this._endPoint}/oauth2/authorization/github`;
+    window.location.href = url;
+  }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('language');
