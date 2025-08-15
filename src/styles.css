@@ -215,7 +215,13 @@ body.dark-mode {
         font-weight: 600;
     }
 
+    .p-popover {
+        background-color: black;
+    }
+
+    .p-datepicker-header {
+        color: white;
+    }
 
 
 }
-

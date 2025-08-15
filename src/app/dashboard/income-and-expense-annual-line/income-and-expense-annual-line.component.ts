@@ -5,10 +5,11 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { DashboardService } from '../service/dashboard.service';
 import { finalize } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
+import { PopoverFilterComponent } from '../popover-filter/popover-filter.component';
 
 @Component({
   selector: 'app-income-and-expense-annual-line',
-  imports: [ChartModule, TranslatePipe, SkeletonModule],
+  imports: [ChartModule, TranslatePipe, SkeletonModule, PopoverFilterComponent],
   templateUrl: './income-and-expense-annual-line.component.html',
   styleUrl: './income-and-expense-annual-line.component.css'
 })
@@ -18,6 +19,7 @@ export class IncomeAndExpenseAnnualLineComponent implements OnInit {
   public loadingTransactionLineByUserId = signal<boolean>(true);
   public dataMonthMoney: any;
   public optionsMonthMoney: any;
+  public year: number = new Date().getFullYear();
 
   private _dashboardService = inject(DashboardService);
 
@@ -27,9 +29,14 @@ export class IncomeAndExpenseAnnualLineComponent implements OnInit {
     }
   }
 
+  onDateChange(date: Date) {
+    this.year = date.getFullYear();
+    this.getTransactionLineByUserId();
+  }
+
   private getTransactionLineByUserId() {
     this.loadingTransactionLineByUserId.set(true);
-    this._dashboardService.getTransactionLineByUserId()
+    this._dashboardService.getTransactionLineByUserId(this.year.toString())
       .pipe(finalize(() => this.loadingTransactionLineByUserId.set(false)))
       .subscribe({
         next: (response) => {

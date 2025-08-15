@@ -1,0 +1,6 @@
+<p-popover #op>
+    <div class="title">
+        <label for="">{{'Filter data by year' | translate}}</label>
+    </div>
+    <p-datepicker view="year" dateFormat="yy" [readonlyInput]="true" (onSelect)="changeYear($event)" />
+</p-popover>

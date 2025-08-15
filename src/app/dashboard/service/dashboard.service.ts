@@ -33,9 +33,9 @@ export class DashboardService {
     );
   }
 
-  getTransactionBarByUserId(): Observable<ChartBarData> {
+  getTransactionBarByUserId(year: string): Observable<ChartBarData> {
     const headers = this._authService.getHeaderToken();
-    const url = `${this._endPoint}/transaction/dashboard/bar/${this._authService.currentUserId()}`;
+    const url = `${this._endPoint}/transaction/dashboard/bar/${this._authService.currentUserId()}/year/${year}`;
     return this._httpClient.get<TransactionBar[]>(url, { headers }).pipe(
       retry({
         count: 3,
@@ -111,9 +111,9 @@ export class DashboardService {
     return result.slice(0, count);
   }
 
-  getTransactionBarIncomeExpenseByUserIdAndType(type: string): Observable<ChartBarData> {
+  getTransactionBarIncomeExpenseByUserIdAndType(type: string, year: string): Observable<ChartBarData> {
     const headers = this._authService.getHeaderToken();
-    const url = `${this._endPoint}/transaction/dashboard/bar/${this._authService.currentUserId()}/type/${type}`;
+    const url = `${this._endPoint}/transaction/dashboard/bar/${this._authService.currentUserId()}/type/${type}/year/${year}`;
     return this._httpClient.get<TransactionIncomeExpense[]>(url, { headers }).pipe(
       retry({
         count: 3,
@@ -148,9 +148,9 @@ export class DashboardService {
     )
   }
 
-  getTransactionLineByUserId(): Observable<ChartBarData> {
+  getTransactionLineByUserId(year: string): Observable<ChartBarData> {
     const headers = this._authService.getHeaderToken();
-    const url = `${this._endPoint}/transaction/dashboard/bar/${this._authService.currentUserId()}`;
+    const url = `${this._endPoint}/transaction/dashboard/bar/${this._authService.currentUserId()}/year/${year}`;
     return this._httpClient.get<TransactionBar[]>(url, { headers }).pipe(
       retry({
         count: 3,

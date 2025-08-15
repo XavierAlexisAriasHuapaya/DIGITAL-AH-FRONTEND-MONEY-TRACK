@@ -56,3 +56,22 @@
 p-chart {
     width: 100%;
 }
+
+
+.container-title {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.container-title .filter {
+    position: absolute;
+    right: 1px;
+    cursor: pointer;
+}
+
+.title {
+    margin-bottom: 0.5rem;
+}

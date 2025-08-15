@@ -1,11 +1,14 @@
 <div class="container-chart container-dark-light">
     <div class="container-chart-element">
-        <div class="top">
+        <div class="container-title">
             <div class="title">
-                <p>{{'Top 5 Income Categories' | translate}}</p>
+                <p>{{'Top 5 Income Categories' | translate}} {{yearIncome}}</p>
+            </div>
+            <div class="filter">
+                <i class="pi pi-filter" (click)="popoverFilter1.openPopeverFilter($event)"></i>
             </div>
         </div>
-        @if (!loadingTransactionBarIncomeExpenseByUserIdAndType()) {
+        @if (!loadingIncome()) {
         <p-chart type="bar" [data]="dataIncome" [options]="optionsIncome"></p-chart>
         } @else {
         <div class="chart-skeleton">
@@ -14,12 +17,15 @@
         }
     </div>
     <div class="container-chart-element">
-        <div class="top">
+        <div class="container-title">
             <div class="title">
-                <p>{{'Top 5 Expense Categories' | translate}}</p>
+                <p>{{'Top 5 Expense Categories' | translate}} {{yearExpense}}</p>
+            </div>
+            <div class="filter">
+                <i class="pi pi-filter" (click)="popoverFilter2.openPopeverFilter($event)"></i>
             </div>
         </div>
-        @if (!loadingTransactionBarIncomeExpenseByUserIdAndType()) {
+        @if (!loadingExpense()) {
         <p-chart type="doughnut" [data]="dataExpense" [options]="optionsExpense"></p-chart>
         } @else {
         <div class="chart-skeleton">
@@ -28,3 +34,6 @@
         }
     </div>
 </div>
+
+<app-popover-filter #popoverFilter1 (dateFilter)="onDateChangeIncome($event)"></app-popover-filter>
+<app-popover-filter #popoverFilter2 (dateFilter)="onDateChangeExpense($event)"></app-popover-filter>

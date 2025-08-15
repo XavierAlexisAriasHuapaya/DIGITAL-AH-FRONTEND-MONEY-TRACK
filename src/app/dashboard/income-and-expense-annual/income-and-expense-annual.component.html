@@ -1,7 +1,13 @@
 <div class="container-chart container-dark-light">
-    <div class="title">
-        <p>{{'Annual Income and Expense Summary' | translate}}</p>
+    <div class="container-title">
+        <div class="title">
+            <p>{{'Annual Income and Expense Summary' | translate}} {{year}}</p>
+        </div>
+        <div class="filter">
+            <i class="pi pi-filter" (click)="popoverFilter.openPopeverFilter($event)"></i>
+        </div>
     </div>
+
     <div class="container-chart-element-month">
         @if (!loadingTransactionBarByUserId()) {
         <p-chart type="bar" [data]="dataMonth" [options]="optionsMonth"></p-chart>
@@ -12,3 +18,5 @@
         }
     </div>
 </div>
+
+<app-popover-filter #popoverFilter (dateFilter)="onDateChange($event)"></app-popover-filter>
