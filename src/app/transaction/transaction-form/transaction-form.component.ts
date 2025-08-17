@@ -6,7 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TransactionService } from '../service/transaction.service';
 import { ToastService } from '../../utils/service/toast.service';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { CategoryService } from '../../category/service/category.service';
 import { CategoryFindAll } from '../../category/interface/category-find-all.interface';
 import { BankAccountService } from '../../bank/service/bank-account.service';
@@ -18,6 +18,8 @@ import { FormUtils } from '../../utils/form-utils';
 import { TransactionCreate } from '../interface/transaction-create.interface';
 import { AuthService } from '../../authentication/service/auth.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { TransactionFindOne } from '../interface/transaction-find-one.interface';
+import { TransactionUpdate } from '../interface/transaction-update.interface';
 
 @Component({
   selector: 'app-transaction-form',
@@ -31,6 +33,7 @@ export class TransactionFormComponent implements OnInit {
   public formUtils = FormUtils;
 
   private _dynamicDialogRef = inject(DynamicDialogRef);
+  private _dynamicDialogConfig = inject(DynamicDialogConfig);
   private _transactionService = inject(TransactionService);
   private readonly _toastService = inject(ToastService);
   private _formBuilder = inject(FormBuilder);
@@ -52,13 +55,13 @@ export class TransactionFormComponent implements OnInit {
       id: [this.authService.currentUserId(), [Validators.required]]
     }),
     category: this._formBuilder.group({
-      id: [null, [Validators.required, Validators.min(1)]]
+      id: [0, [Validators.required, Validators.min(1)]]
     }),
     bankAccountOrigin: this._formBuilder.group({
-      id: [null, [Validators.required, Validators.min(1)]]
+      id: [0, [Validators.required, Validators.min(1)]]
     }),
     bankAccountDestination: this._formBuilder.group({
-      id: [null]
+      id: [0]
     }),
     description: ['', [Validators.required, Validators.minLength(5)]],
     date: [new Date, [Validators.required]],
@@ -84,6 +87,28 @@ export class TransactionFormComponent implements OnInit {
         this.getAllBankAccountsDestination(this.bankAccountOriginId);
       }
     })
+
+    let data = this._dynamicDialogConfig.data;
+    if (data) {
+      this.id = this._dynamicDialogConfig.data.request.id;
+      if (this.id) {
+        this._transactionService.findOne(this.id).subscribe({
+          next: (response) => {
+            this.myForm.get('category')?.get('id')?.setValue(response.category.id);
+            this.myForm.get('bankAccountOrigin')?.get('id')?.setValue(response.bankAccountOrigin.id);
+            if (response.bankAccountDestination) {
+              this.myForm.get('bankAccountDestination')?.get('id')?.setValue(response.bankAccountDestination.id);
+            }
+            this.myForm.get('description')?.setValue(response.description);
+            this.myForm.get('amount')?.setValue(response.amount);
+            return response;
+          },
+          error: (error) => {
+            this._toastService.showToast('error', error.message, 'bottom-center');
+          }
+        })
+      }
+    }
   }
 
   getCategories() {
@@ -133,6 +158,43 @@ export class TransactionFormComponent implements OnInit {
       date: this.myForm.get('date')?.value ?? new Date()
     }
     this._transactionService.createTransaction(transactionCreate).subscribe({
+      next: (response) => {
+        if (response.response.includes('Successfully')) {
+          this._dynamicDialogRef.close({
+            message: response.response,
+          });
+          this._toastService.showToast('success', response.response, 'bottom-center');
+        } else {
+          this._toastService.showToast('warn', response.response, 'bottom-center');
+        }
+      },
+      error: (error) => {
+        this._toastService.showToast('error', error.message, 'bottom-center');
+      }
+    })
+  }
+
+  update() {
+    if (!this.myForm.valid) {
+      this.myForm.markAllAsTouched();
+      return;
+    }
+    const transactionUpdate: TransactionUpdate = {
+      id: this.id ?? 0,
+      category: {
+        id: this.myForm.get('category')?.get('id')?.value ?? 0
+      },
+      bankAccountOrigin: {
+        id: this.myForm.get('bankAccountOrigin')?.get('id')?.value ?? 0
+      },
+      bankAccountDestination: (this.myForm.get('bankAccountDestination')?.get('id')?.value ?? 0) === 0
+        ? null
+        : { id: this.myForm.get('bankAccountDestination')?.get('id')?.value ?? 0 },
+      description: this.myForm.get('description')?.value ?? '',
+      amount: this.myForm.get('amount')?.value ?? 0,
+      date: this.myForm.get('date')?.value ?? new Date()
+    }
+    this._transactionService.updateTransaction(transactionUpdate).subscribe({
       next: (response) => {
         if (response.response.includes('Successfully')) {
           this._dynamicDialogRef.close({

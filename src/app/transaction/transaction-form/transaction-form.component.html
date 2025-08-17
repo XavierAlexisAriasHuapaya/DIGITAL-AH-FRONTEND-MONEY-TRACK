@@ -1,5 +1,5 @@
 <div class="container">
-    <form (submit)="create()" [formGroup]="myForm" autocomplete="false">
+    <form (submit)="id ? update() : create()" [formGroup]="myForm" autocomplete="false">
         <div class="body">
 
             <div class="group">

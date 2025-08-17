@@ -82,7 +82,6 @@ export class TransactionListComponent implements OnInit {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.transactionData = response.content;
           this.totalElements = response.totalElements;
         },
@@ -91,7 +90,7 @@ export class TransactionListComponent implements OnInit {
         }
       })
   }
- skeletonColumns = Array.from({ length: 7 });
+  skeletonColumns = Array.from({ length: 7 });
   createTransaction() {
     const headerText = this._translateService.instant('Create Transaction');
     this._dynamicDialogRef = this._dialogService.open(TransactionFormComponent, {
@@ -118,7 +117,33 @@ export class TransactionListComponent implements OnInit {
   }
 
   updateTransaction(id: number) {
-
+    const headerText = this._translateService.instant('Update Transaction');
+    this._dynamicDialogRef = this._dialogService.open(TransactionFormComponent, {
+      header: headerText,
+      dismissableMask: true,
+      width: '25%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      closeOnEscape: true,
+      modal: true,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      },
+      data: {
+        request: {
+          id: id,
+        }
+      }
+    });
+    this._dynamicDialogRef.onClose.subscribe((data) => {
+      if (data) {
+        let message: string = data.message;
+        if (message.includes('Successfully')) {
+          this.paginationTransaction();
+        }
+      }
+    })
   }
 
 }
