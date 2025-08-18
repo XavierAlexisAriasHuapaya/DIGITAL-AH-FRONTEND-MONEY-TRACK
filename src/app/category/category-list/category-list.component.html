@@ -5,7 +5,8 @@
             (onClick)="createCategory()" />
     </div>
     <div class="card">
-        <p-table class="transactions-table" [value]="categories" [rows]="page" [tableStyle]="{ 'min-width': '50rem' }" size="small">
+        <p-table class="transactions-table" [value]="categories" [rows]="page" [tableStyle]="{ 'min-width': '50rem' }"
+            size="small">
             <ng-template #caption>
                 <p-iconfield>
                     <p-inputicon styleClass="pi pi-search" />
@@ -24,10 +25,7 @@
 
                 @if (!loading()) {
                 <tr>
-                    <td [ngClass]="{
-                        'cl-inbound': customer.type === 'INCOME',
-                        'cl-outbound': customer.type === 'EXPENSE',
-                    }">{{ customer.type }}</td>
+                    <td><p-tag [severity]="customer.severity" [value]="customer.type" [rounded]="true" /></td>
                     <td>{{ customer.description }}</td>
                     <td>
                         <p-menu #menu [model]="items" [id]="customer.id" [popup]="true" [appendTo]="'body'" />

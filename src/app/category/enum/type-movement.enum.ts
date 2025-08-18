@@ -1,4 +1,4 @@
 export enum TypeMovement {
-    INCOME,
-    EXPENSE
+    INCOME = 'INCOME',
+    EXPENSE = 'EXPENSE'
 }

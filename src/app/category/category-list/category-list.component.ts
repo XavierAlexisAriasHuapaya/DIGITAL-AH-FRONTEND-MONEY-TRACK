@@ -13,15 +13,16 @@ import { CategoryService } from '../service/category.service';
 import { CategoryPagination } from '../interface/category-pagination.interface';
 import { PaginatorModule } from 'primeng/paginator';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounce, debounceTime, finalize } from 'rxjs';
+import { debounceTime, finalize } from 'rxjs';
 import { ToastService } from '../../utils/service/toast.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { RowTableSkeletonComponent } from '../../shared/skeleton/row-table-skeleton/row-table-skeleton.component';
+import { Tag } from 'primeng/tag';
 
 @Component({
   selector: 'app-category-list',
   imports: [TableModule, CommonModule, IconField, InputIcon, InputTextModule, ButtonModule,
-    DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule, TranslatePipe, RowTableSkeletonComponent],
+    DynamicDialogModule, Menu, PaginatorModule, ReactiveFormsModule, TranslatePipe, RowTableSkeletonComponent, Tag],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.css',
   providers: [DialogService, DynamicDialogRef]

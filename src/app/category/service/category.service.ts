@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environments } from '../../environments/environments';
-import { catchError, Observable, retry, throwError } from 'rxjs';
+import { catchError, map, Observable, retry, throwError } from 'rxjs';
 import { PaginationInterface } from '../../utils/interface/pagination.interface';
 import { CategoryPagination } from '../interface/category-pagination.interface';
 import { CategoryCreate } from '../interface/category-create.interface';
@@ -10,6 +10,7 @@ import { CategoryFindOne } from '../interface/category-find-one.interface';
 import { CategoryUpdate } from '../interface/category-update.interface';
 import { CategoryFindAll } from '../interface/category-find-all.interface';
 import { AuthService } from '../../authentication/service/auth.service';
+import { TypeMovement } from '../enum/type-movement.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,12 @@ export class CategoryService {
       .append('sort', 'createdAt,desc')
       .append('search', search ?? '');
     return this._httpCliente.get<PaginationInterface<CategoryPagination>>(url, { params, headers }).pipe(
+      map((item) => {
+        item.content.forEach((category) => {
+          category.severity = category.type == TypeMovement.INCOME ? 'success' : 'danger';
+        })
+        return item;
+      }),
       retry({
         count: 3,
         delay: 1200
