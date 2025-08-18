@@ -28,32 +28,17 @@
             <ng-template #body let-transaction>
                 @if (!loading()) {
                 <tr>
-                    <td [ngClass]="{
-                        'cl-inbound': transaction.category.type === 'INCOME',
-                        'cl-outbound': transaction.category.type === 'EXPENSE',
-                    }">{{ transaction.bankAccountOrigin.name }}</td>
-                    <td [ngClass]="{
-                        'cl-inbound': transaction.category.type === 'INCOME',
-                        'cl-outbound': transaction.category.type === 'EXPENSE',
-                    }">{{ transaction.bankAccountDestination == null ? '-' : transaction.bankAccountDestination.name }}
+                    <td>{{ transaction.bankAccountOrigin.name }}</td>
+                    <td>{{ transaction.bankAccountDestination == null ? '-' : transaction.bankAccountDestination.name }}
                     </td>
-                    <td [ngClass]="{
-                        'cl-inbound': transaction.category.type === 'INCOME',
-                        'cl-outbound': transaction.category.type === 'EXPENSE',
-                    }">{{ transaction.category.description }}</td>
-                    <td [ngClass]="{
-                        'cl-inbound': transaction.category.type === 'INCOME',
-                        'cl-outbound': transaction.category.type === 'EXPENSE',
-                    }">{{ transaction.description }}</td>
+                    <td>{{ transaction.category.description }}</td>
+                    <td>{{ transaction.description }}</td>
                     <td [ngClass]="{
                         'cl-inbound': transaction.category.type === 'INCOME',
                         'cl-outbound': transaction.category.type === 'EXPENSE',
                     }">{{ transaction.amount | currency: authService.currentCurrency()?.code: 'symbol':
                         authService.currentCurrency()?.digits : authService.currentCurrency()?.locale }}</td>
-                    <td [ngClass]="{
-                        'cl-inbound': transaction.category.type === 'INCOME',
-                        'cl-outbound': transaction.category.type === 'EXPENSE',
-                    }">{{ transaction.date | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ transaction.date | date: 'dd/MM/yyyy' }}</td>
                     <td>
                         <p-menu #menu [model]="items" [id]="transaction.id" [popup]="true" [appendTo]="'body'" />
                         <p-button (click)="openToggle(menu, $event, transaction.id)" icon="pi pi-ellipsis-v" />
