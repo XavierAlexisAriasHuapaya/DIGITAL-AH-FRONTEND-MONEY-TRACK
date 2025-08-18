@@ -101,6 +101,7 @@ export class TransactionFormComponent implements OnInit {
             }
             this.myForm.get('description')?.setValue(response.description);
             this.myForm.get('amount')?.setValue(response.amount);
+            this.myForm.get('date')?.setValue(response.date);
             return response;
           },
           error: (error) => {
